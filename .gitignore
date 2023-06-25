@@ -137,3 +137,9 @@ dmypy.json
 .idea/
 
 **/.DS_Store
+
+# Ignore data
+data/
+
+#  ! I don't want to upload exp/ now
+exp/
