@@ -7,7 +7,7 @@ federate:
   mode: standalone
   method: Ditto
   client_num: 10
-  total_round_num: 100
+  total_round_num: 500
   sample_client_rate: 0.2
   make_global_eval: False
   merge_test_data: False
@@ -20,7 +20,7 @@ data:
   test_transform: [['ToTensor'], ['Normalize', {'mean': [0.4914, 0.4822, 0.4465], 'std': [0.2470, 0.2435, 0.2616]}]]
   args: [{'download': True}]
   splitter: 'lda'
-  splitter_args: [{'alpha': 1}]
+  splitter_args: [{'alpha': 1.5}]
 dataloader:
   batch_size: 64
 model:
@@ -73,3 +73,6 @@ attack:
 
 outdir: 'xuan-output/'
 expname_tag: 'badnet_ditto'
+
+verbose: 1
+device: 0
