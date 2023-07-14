@@ -1,0 +1,75 @@
+use_gpu: True
+device: 0
+early_stop:
+  patience: 0
+seed: 12345
+federate:
+  mode: standalone
+  method: pFedMe
+  client_num: 10
+  total_round_num: 100
+  sample_client_rate: 0.2
+  make_global_eval: False
+  merge_test_data: False
+data:
+  root: data/
+  type: 'CIFAR10@torchvision'
+  splits: [0.8, 0.1, 0.1]
+  num_workers: 0
+  transform: [['ToTensor'], ['Normalize', {'mean': [0.4914, 0.4822, 0.4465], 'std': [0.2470, 0.2435, 0.2616]}]]
+  test_transform: [['ToTensor'], ['Normalize', {'mean': [0.4914, 0.4822, 0.4465], 'std': [0.2470, 0.2435, 0.2616]}]]
+  args: [{'download': True}]
+  splitter: 'lda'
+  splitter_args: [{'alpha': 1}]
+dataloader:
+  batch_size: 64
+model:
+  type: convnet2
+  hidden: 2048
+  out_channels: 10
+  dropout: 0.0
+train:
+  local_update_steps: 1
+  batch_or_epoch: epoch
+  optimizer:
+    lr: 0.01
+    weight_decay: 0.0
+grad:
+  grad_clip: 5.0
+criterion:
+  type: CrossEntropyLoss
+trainer:
+  type: cvtrainer
+eval:
+  freq: 1
+  metrics: ['acc', 'correct']
+  best_res_update_round_wise_key: test_loss
+  # split: ['test', 'val', 'poison_test', 'poison_val']
+  split: ['test', 'val']
+attack:
+  attack_method: 'backdoor'
+  setting: 'fix'
+  poison_ratio: 0.01
+  freq: 3
+  trigger_type: 'signalTrigger'
+  # trigger_type: 'squareTrigger'
+  label_type: 'clean'
+  attacker_id: 1
+  target_label_ind: 2
+  trigger_path: 'my_trigger/'
+  mean: [0.4914, 0.4822, 0.4465]
+  std: [0.2470, 0.2435, 0.2616]
+# personalization:
+  # K: 5
+  # beta: 1.0
+  # epoch_feature: 1
+  # epoch_linear: 2
+  # local_param: []
+  # local_update_steps: 1
+  # lr: 0.01
+  # lr_feature: 0.1
+  # lr_linear: 0.1
+  # regular_weight: 10
+
+outdir: 'xuan-output/'
+expname_tag: 'narci_pfedme'
