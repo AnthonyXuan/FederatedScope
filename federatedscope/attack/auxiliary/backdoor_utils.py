@@ -224,18 +224,37 @@ def _randomPixelTrigger(img, height, width, distance, trig_h, trig_w):
 
     return blend_img
 
-
+# anthony
+# ! Modified to suite Narciss (i.e. 3 channels mask)
 def _signalTrigger(img, height, width, distance, trig_h, trig_w, load_path):
     #  vertical stripe pattern different from sig
     alpha = 0.2
     # load signal mask
-    load_path = os.path.join(load_path, 'signal_cifar10_mask.npy')
+    # signal_file = 'signal_cifar10_mask.npy'
+    # 用我自己的best——noise，来自narcissi
+    signal_file = 'best_noise_04-20-16_14_17.npy'
+    load_path = os.path.join(load_path, signal_file)
+    # signal_mask.shape = (1,3,32,32)
     signal_mask = np.load(load_path)
+    signal_mask = signal_mask.transpose(0,2,3,1)
     blend_img = (1 - alpha) * img + alpha * signal_mask.reshape(
-        (height, width, 1))  # FOR CIFAR10
+        (height, width, 3))  # FOR CIFAR10
     blend_img = np.clip(blend_img.astype('uint8'), 0, 255)
 
     return blend_img
+
+# # blend in signal, i.e. vertical stripe trigger
+# def _signalTrigger(img, height, width, distance, trig_h, trig_w, load_path):
+#     #  vertical stripe pattern different from sig
+#     alpha = 0.2
+#     # load signal mask
+#     load_path = os.path.join(load_path, 'signal_cifar10_mask.npy')
+#     signal_mask = np.load(load_path)
+#     blend_img = (1 - alpha) * img + alpha * signal_mask.reshape(
+#         (height, width, 1))  # FOR CIFAR10
+#     blend_img = np.clip(blend_img.astype('uint8'), 0, 255)
+
+#     return blend_img
 
 
 def _hkTrigger(img, height, width, distance, trig_h, trig_w, load_path):

@@ -2,7 +2,7 @@
 import re
 
 # 文件名
-filename = "../poi-log.txt"
+filename = "./poi-log.txt"
 
 # 读取文件内容
 with open(filename, "r") as file:

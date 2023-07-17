@@ -1,7 +1,7 @@
 import yaml
 import os
 
-base_folder = '../new-scripts'
+base_folder = './new-scripts'
 
 class BaseConfig:
     def __init__(self):
@@ -95,7 +95,19 @@ class Attack():
                 "std": [0.2470, 0.2435, 0.2616]
             }
         elif attack_type == 'narci':
-            pass
+            self.attack = {
+                "attack_method": "backdoor",
+                "setting": "fix",
+                "poison_ratio": 0.01,
+                "freq": 3,
+                "trigger_type": "signalTrigger",
+                "label_type": "clean",
+                "attacker_id": 4,
+                "target_label_ind": 2,
+                "trigger_path": "my_trigger/",
+                "mean": [0.4914, 0.4822, 0.4465],
+                "std": [0.2470, 0.2435, 0.2616]
+            }
 
 class DittoConfig(BaseConfig, Attack):
     def __init__(self, attack_type):
@@ -121,10 +133,13 @@ def write_config_to_yaml(config, filename):
 
 naive_ditto = DittoConfig(attack_type='naive')
 badnet_ditto = DittoConfig(attack_type='badnet')
+narci_ditto = DittoConfig(attack_type='narci')
+
 naive_fedavg = FedAvgConfig(attack_type='naive')
 badnet_fedavg = FedAvgConfig(attack_type='badnet')
+narci_fedavg = FedAvgConfig(attack_type='narci')
 
-cfgs = [naive_ditto, badnet_ditto, naive_fedavg, badnet_fedavg]
+cfgs = [naive_ditto, badnet_ditto, narci_ditto, naive_fedavg, badnet_fedavg, narci_fedavg]
 
 for cfg in cfgs:
     write_config_to_yaml(cfg, os.path.join(base_folder, cfg.expname_tag + '.yaml'))

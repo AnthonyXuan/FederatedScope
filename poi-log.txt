@@ -1,617 +1,158 @@
-
-2023-07-17 16:04:45,547 (monitor:542) INFO: {'Role': 'Server #', 'Round': 152, 'Results_model_metric': {}}
-2023-07-17 16:04:45,646 (server:340) INFO: Server: Starting evaluation at the end of round 152.
-2023-07-17 16:04:45,646 (server:346) INFO: ----------- Starting a new training round (Round #153) -------------
-2023-07-17 16:04:45,647 (server_attacker:90) INFO: starting the fix-frequency poisoning attack
-2023-07-17 16:04:45,647 (server_attacker:91) INFO: starting poisoning round: 153, the attacker ID: 1
-2023-07-17 16:04:45,681 (benign_trainer:68) INFO: the test poisoning samples: 70
-2023-07-17 16:04:45,682 (benign_trainer:80) INFO: the test poisoning accuracy: 0.057143
-2023-07-17 16:04:45,726 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:45,727 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:45,740 (benign_trainer:68) INFO: the val poisoning samples: 155
-2023-07-17 16:04:45,740 (benign_trainer:80) INFO: the val poisoning accuracy: 0.109677
-2023-07-17 16:04:45,796 (benign_trainer:68) INFO: the test poisoning samples: 70
-2023-07-17 16:04:45,796 (benign_trainer:80) INFO: the test poisoning accuracy: 0.271429
-2023-07-17 16:04:45,841 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:45,841 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:45,846 (benign_trainer:68) INFO: the val poisoning samples: 62
-2023-07-17 16:04:45,846 (benign_trainer:80) INFO: the val poisoning accuracy: 0.193548
-2023-07-17 16:04:45,902 (benign_trainer:68) INFO: the test poisoning samples: 90
-2023-07-17 16:04:45,902 (benign_trainer:80) INFO: the test poisoning accuracy: 0.088889
-2023-07-17 16:04:45,946 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:45,946 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:45,965 (benign_trainer:68) INFO: the val poisoning samples: 216
-2023-07-17 16:04:45,965 (benign_trainer:80) INFO: the val poisoning accuracy: 0.217593
-2023-07-17 16:04:46,025 (benign_trainer:68) INFO: the test poisoning samples: 120
-2023-07-17 16:04:46,025 (benign_trainer:80) INFO: the test poisoning accuracy: 0.191667
-2023-07-17 16:04:46,069 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,069 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,073 (benign_trainer:68) INFO: the val poisoning samples: 22
-2023-07-17 16:04:46,073 (benign_trainer:80) INFO: the val poisoning accuracy: 0.090909
-2023-07-17 16:04:46,129 (benign_trainer:68) INFO: the test poisoning samples: 88
-2023-07-17 16:04:46,130 (benign_trainer:80) INFO: the test poisoning accuracy: 0.147727
-2023-07-17 16:04:46,174 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,174 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,184 (benign_trainer:68) INFO: the val poisoning samples: 94
-2023-07-17 16:04:46,184 (benign_trainer:80) INFO: the val poisoning accuracy: 0.191489
-2023-07-17 16:04:46,240 (benign_trainer:68) INFO: the test poisoning samples: 82
-2023-07-17 16:04:46,241 (benign_trainer:80) INFO: the test poisoning accuracy: 0.146341
-2023-07-17 16:04:46,286 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,286 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,299 (benign_trainer:68) INFO: the val poisoning samples: 78
-2023-07-17 16:04:46,299 (benign_trainer:80) INFO: the val poisoning accuracy: 0.217949
-2023-07-17 16:04:46,351 (benign_trainer:68) INFO: the test poisoning samples: 49
-2023-07-17 16:04:46,351 (benign_trainer:80) INFO: the test poisoning accuracy: 0.040816
-2023-07-17 16:04:46,396 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,396 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,403 (benign_trainer:68) INFO: the val poisoning samples: 75
-2023-07-17 16:04:46,403 (benign_trainer:80) INFO: the val poisoning accuracy: 0.186667
-2023-07-17 16:04:46,457 (benign_trainer:68) INFO: the test poisoning samples: 70
-2023-07-17 16:04:46,457 (benign_trainer:80) INFO: the test poisoning accuracy: 0.185714
-2023-07-17 16:04:46,502 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,502 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,509 (benign_trainer:68) INFO: the val poisoning samples: 76
-2023-07-17 16:04:46,509 (benign_trainer:80) INFO: the val poisoning accuracy: 0.105263
-2023-07-17 16:04:46,562 (benign_trainer:68) INFO: the test poisoning samples: 56
-2023-07-17 16:04:46,562 (benign_trainer:80) INFO: the test poisoning accuracy: 0.142857
-2023-07-17 16:04:46,606 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,607 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,613 (benign_trainer:68) INFO: the val poisoning samples: 69
-2023-07-17 16:04:46,613 (benign_trainer:80) INFO: the val poisoning accuracy: 0.101449
-2023-07-17 16:04:46,674 (benign_trainer:68) INFO: the test poisoning samples: 157
-2023-07-17 16:04:46,674 (benign_trainer:80) INFO: the test poisoning accuracy: 0.11465
-2023-07-17 16:04:46,719 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,719 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,729 (benign_trainer:68) INFO: the val poisoning samples: 128
-2023-07-17 16:04:46,729 (benign_trainer:80) INFO: the val poisoning accuracy: 0.1875
-2023-07-17 16:04:46,783 (benign_trainer:68) INFO: the test poisoning samples: 44
-2023-07-17 16:04:46,783 (benign_trainer:80) INFO: the test poisoning accuracy: 0.181818
-2023-07-17 16:04:46,827 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,827 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,831 (benign_trainer:68) INFO: the val poisoning samples: 37
-2023-07-17 16:04:46,831 (benign_trainer:80) INFO: the val poisoning accuracy: 0.243243
-2023-07-17 16:04:46,887 (benign_trainer:68) INFO: the test poisoning samples: 94
-2023-07-17 16:04:46,887 (benign_trainer:80) INFO: the test poisoning accuracy: 0.12766
-2023-07-17 16:04:46,932 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,932 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:46,939 (benign_trainer:68) INFO: the val poisoning samples: 81
-2023-07-17 16:04:46,940 (benign_trainer:80) INFO: the val poisoning accuracy: 0.123457
-2023-07-17 16:04:46,991 (benign_trainer:68) INFO: the test poisoning samples: 37
-2023-07-17 16:04:46,991 (benign_trainer:80) INFO: the test poisoning accuracy: 0.054054
-2023-07-17 16:04:47,036 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,036 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,038 (benign_trainer:68) INFO: the val poisoning samples: 11
-2023-07-17 16:04:47,038 (benign_trainer:80) INFO: the val poisoning accuracy: 0.181818
-2023-07-17 16:04:47,092 (benign_trainer:68) INFO: the test poisoning samples: 65
-2023-07-17 16:04:47,092 (benign_trainer:80) INFO: the test poisoning accuracy: 0.230769
-2023-07-17 16:04:47,136 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,136 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,141 (benign_trainer:68) INFO: the val poisoning samples: 47
-2023-07-17 16:04:47,141 (benign_trainer:80) INFO: the val poisoning accuracy: 0.12766
-2023-07-17 16:04:47,196 (benign_trainer:68) INFO: the test poisoning samples: 90
-2023-07-17 16:04:47,196 (benign_trainer:80) INFO: the test poisoning accuracy: 0.155556
-2023-07-17 16:04:47,241 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,241 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,250 (benign_trainer:68) INFO: the val poisoning samples: 91
-2023-07-17 16:04:47,250 (benign_trainer:80) INFO: the val poisoning accuracy: 0.120879
-2023-07-17 16:04:47,307 (benign_trainer:68) INFO: the test poisoning samples: 89
-2023-07-17 16:04:47,307 (benign_trainer:80) INFO: the test poisoning accuracy: 0.179775
-2023-07-17 16:04:47,360 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,360 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,366 (benign_trainer:68) INFO: the val poisoning samples: 60
-2023-07-17 16:04:47,367 (benign_trainer:80) INFO: the val poisoning accuracy: 0.2
-2023-07-17 16:04:47,422 (benign_trainer:68) INFO: the test poisoning samples: 79
-2023-07-17 16:04:47,422 (benign_trainer:80) INFO: the test poisoning accuracy: 0.202532
-2023-07-17 16:04:47,467 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,467 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,475 (benign_trainer:68) INFO: the val poisoning samples: 71
-2023-07-17 16:04:47,475 (benign_trainer:80) INFO: the val poisoning accuracy: 0.126761
-2023-07-17 16:04:47,534 (benign_trainer:68) INFO: the test poisoning samples: 70
-2023-07-17 16:04:47,534 (benign_trainer:80) INFO: the test poisoning accuracy: 0.171429
-2023-07-17 16:04:47,578 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,578 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,587 (benign_trainer:68) INFO: the val poisoning samples: 89
-2023-07-17 16:04:47,587 (benign_trainer:80) INFO: the val poisoning accuracy: 0.134831
-2023-07-17 16:04:47,643 (benign_trainer:68) INFO: the test poisoning samples: 85
-2023-07-17 16:04:47,643 (benign_trainer:80) INFO: the test poisoning accuracy: 0.188235
-2023-07-17 16:04:47,688 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,688 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,691 (benign_trainer:68) INFO: the val poisoning samples: 37
-2023-07-17 16:04:47,692 (benign_trainer:80) INFO: the val poisoning accuracy: 0.324324
-2023-07-17 16:04:47,746 (benign_trainer:68) INFO: the test poisoning samples: 73
-2023-07-17 16:04:47,747 (benign_trainer:80) INFO: the test poisoning accuracy: 0.205479
-2023-07-17 16:04:47,791 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,791 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,796 (benign_trainer:68) INFO: the val poisoning samples: 50
-2023-07-17 16:04:47,796 (benign_trainer:80) INFO: the val poisoning accuracy: 0.28
-2023-07-17 16:04:47,856 (benign_trainer:68) INFO: the test poisoning samples: 150
-2023-07-17 16:04:47,856 (benign_trainer:80) INFO: the test poisoning accuracy: 0.146667
-2023-07-17 16:04:47,900 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,901 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:47,910 (benign_trainer:68) INFO: the val poisoning samples: 88
-2023-07-17 16:04:47,910 (benign_trainer:80) INFO: the val poisoning accuracy: 0.238636
-2023-07-17 16:04:47,962 (benign_trainer:68) INFO: the test poisoning samples: 51
-2023-07-17 16:04:47,962 (benign_trainer:80) INFO: the test poisoning accuracy: 0.098039
-2023-07-17 16:04:48,006 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,007 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,015 (benign_trainer:68) INFO: the val poisoning samples: 102
-2023-07-17 16:04:48,015 (benign_trainer:80) INFO: the val poisoning accuracy: 0.137255
-2023-07-17 16:04:48,075 (benign_trainer:68) INFO: the test poisoning samples: 108
-2023-07-17 16:04:48,075 (benign_trainer:80) INFO: the test poisoning accuracy: 0.175926
-2023-07-17 16:04:48,119 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,120 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,129 (benign_trainer:68) INFO: the val poisoning samples: 105
-2023-07-17 16:04:48,129 (benign_trainer:80) INFO: the val poisoning accuracy: 0.180952
-2023-07-17 16:04:48,185 (benign_trainer:68) INFO: the test poisoning samples: 100
-2023-07-17 16:04:48,185 (benign_trainer:80) INFO: the test poisoning accuracy: 0.09
-2023-07-17 16:04:48,230 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,230 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,237 (benign_trainer:68) INFO: the val poisoning samples: 57
-2023-07-17 16:04:48,237 (benign_trainer:80) INFO: the val poisoning accuracy: 0.263158
-2023-07-17 16:04:48,291 (benign_trainer:68) INFO: the test poisoning samples: 69
-2023-07-17 16:04:48,291 (benign_trainer:80) INFO: the test poisoning accuracy: 0.144928
-2023-07-17 16:04:48,336 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,336 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,343 (benign_trainer:68) INFO: the val poisoning samples: 65
-2023-07-17 16:04:48,343 (benign_trainer:80) INFO: the val poisoning accuracy: 0.246154
-2023-07-17 16:04:48,398 (benign_trainer:68) INFO: the test poisoning samples: 90
-2023-07-17 16:04:48,399 (benign_trainer:80) INFO: the test poisoning accuracy: 0.177778
-2023-07-17 16:04:48,443 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,443 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,453 (benign_trainer:68) INFO: the val poisoning samples: 121
-2023-07-17 16:04:48,453 (benign_trainer:80) INFO: the val poisoning accuracy: 0.330579
-2023-07-17 16:04:48,512 (benign_trainer:68) INFO: the test poisoning samples: 123
-2023-07-17 16:04:48,512 (benign_trainer:80) INFO: the test poisoning accuracy: 0.178862
-2023-07-17 16:04:48,557 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,557 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,565 (benign_trainer:68) INFO: the val poisoning samples: 73
-2023-07-17 16:04:48,566 (benign_trainer:80) INFO: the val poisoning accuracy: 0.232877
-2023-07-17 16:04:48,619 (benign_trainer:68) INFO: the test poisoning samples: 37
-2023-07-17 16:04:48,620 (benign_trainer:80) INFO: the test poisoning accuracy: 0.216216
-2023-07-17 16:04:48,664 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,664 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,679 (benign_trainer:68) INFO: the val poisoning samples: 184
-2023-07-17 16:04:48,679 (benign_trainer:80) INFO: the val poisoning accuracy: 0.119565
-2023-07-17 16:04:48,738 (benign_trainer:68) INFO: the test poisoning samples: 109
-2023-07-17 16:04:48,738 (benign_trainer:80) INFO: the test poisoning accuracy: 0.183486
-2023-07-17 16:04:48,783 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,783 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,788 (benign_trainer:68) INFO: the val poisoning samples: 35
-2023-07-17 16:04:48,788 (benign_trainer:80) INFO: the val poisoning accuracy: 0.2
-2023-07-17 16:04:48,842 (benign_trainer:68) INFO: the test poisoning samples: 53
-2023-07-17 16:04:48,843 (benign_trainer:80) INFO: the test poisoning accuracy: 0.113208
-2023-07-17 16:04:48,887 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,887 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:48,897 (benign_trainer:68) INFO: the val poisoning samples: 122
-2023-07-17 16:04:48,897 (benign_trainer:80) INFO: the val poisoning accuracy: 0.229508
-2023-07-17 16:04:48,958 (benign_trainer:68) INFO: the test poisoning samples: 156
-2023-07-17 16:04:48,958 (benign_trainer:80) INFO: the test poisoning accuracy: 0.230769
-2023-07-17 16:04:49,003 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,003 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,012 (benign_trainer:68) INFO: the val poisoning samples: 94
-2023-07-17 16:04:49,012 (benign_trainer:80) INFO: the val poisoning accuracy: 0.180851
-2023-07-17 16:04:49,074 (benign_trainer:68) INFO: the test poisoning samples: 172
-2023-07-17 16:04:49,074 (benign_trainer:80) INFO: the test poisoning accuracy: 0.209302
-2023-07-17 16:04:49,118 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,118 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,130 (benign_trainer:68) INFO: the val poisoning samples: 144
-2023-07-17 16:04:49,131 (benign_trainer:80) INFO: the val poisoning accuracy: 0.111111
-2023-07-17 16:04:49,183 (benign_trainer:68) INFO: the test poisoning samples: 43
-2023-07-17 16:04:49,183 (benign_trainer:80) INFO: the test poisoning accuracy: 0.186047
-2023-07-17 16:04:49,227 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,227 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,236 (benign_trainer:68) INFO: the val poisoning samples: 80
-2023-07-17 16:04:49,236 (benign_trainer:80) INFO: the val poisoning accuracy: 0.1375
-2023-07-17 16:04:49,294 (benign_trainer:68) INFO: the test poisoning samples: 122
-2023-07-17 16:04:49,294 (benign_trainer:80) INFO: the test poisoning accuracy: 0.188525
-2023-07-17 16:04:49,338 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,339 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,342 (benign_trainer:68) INFO: the val poisoning samples: 36
-2023-07-17 16:04:49,342 (benign_trainer:80) INFO: the val poisoning accuracy: 0.138889
-2023-07-17 16:04:49,400 (benign_trainer:68) INFO: the test poisoning samples: 119
-2023-07-17 16:04:49,401 (benign_trainer:80) INFO: the test poisoning accuracy: 0.151261
-2023-07-17 16:04:49,445 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,445 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,461 (benign_trainer:68) INFO: the val poisoning samples: 152
-2023-07-17 16:04:49,461 (benign_trainer:80) INFO: the val poisoning accuracy: 0.151316
-2023-07-17 16:04:49,519 (benign_trainer:68) INFO: the test poisoning samples: 105
-2023-07-17 16:04:49,519 (benign_trainer:80) INFO: the test poisoning accuracy: 0.228571
-2023-07-17 16:04:49,563 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,564 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,567 (benign_trainer:68) INFO: the val poisoning samples: 29
-2023-07-17 16:04:49,567 (benign_trainer:80) INFO: the val poisoning accuracy: 0.275862
-2023-07-17 16:04:49,619 (benign_trainer:68) INFO: the test poisoning samples: 42
-2023-07-17 16:04:49,619 (benign_trainer:80) INFO: the test poisoning accuracy: 0.214286
-2023-07-17 16:04:49,664 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,664 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,672 (benign_trainer:68) INFO: the val poisoning samples: 78
-2023-07-17 16:04:49,672 (benign_trainer:80) INFO: the val poisoning accuracy: 0.166667
-2023-07-17 16:04:49,734 (benign_trainer:68) INFO: the test poisoning samples: 184
-2023-07-17 16:04:49,734 (benign_trainer:80) INFO: the test poisoning accuracy: 0.195652
-2023-07-17 16:04:49,779 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,779 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,783 (benign_trainer:68) INFO: the val poisoning samples: 36
-2023-07-17 16:04:49,783 (benign_trainer:80) INFO: the val poisoning accuracy: 0.305556
-2023-07-17 16:04:49,840 (benign_trainer:68) INFO: the test poisoning samples: 108
-2023-07-17 16:04:49,840 (benign_trainer:80) INFO: the test poisoning accuracy: 0.231481
-2023-07-17 16:04:49,885 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,885 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,890 (benign_trainer:68) INFO: the val poisoning samples: 57
-2023-07-17 16:04:49,890 (benign_trainer:80) INFO: the val poisoning accuracy: 0.070175
-2023-07-17 16:04:49,945 (benign_trainer:68) INFO: the test poisoning samples: 69
-2023-07-17 16:04:49,945 (benign_trainer:80) INFO: the test poisoning accuracy: 0.115942
-2023-07-17 16:04:49,990 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,990 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:49,997 (benign_trainer:68) INFO: the val poisoning samples: 74
-2023-07-17 16:04:49,998 (benign_trainer:80) INFO: the val poisoning accuracy: 0.094595
-2023-07-17 16:04:50,055 (benign_trainer:68) INFO: the test poisoning samples: 108
-2023-07-17 16:04:50,055 (benign_trainer:80) INFO: the test poisoning accuracy: 0.194444
-2023-07-17 16:04:50,099 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,100 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,109 (benign_trainer:68) INFO: the val poisoning samples: 83
-2023-07-17 16:04:50,109 (benign_trainer:80) INFO: the val poisoning accuracy: 0.180723
-2023-07-17 16:04:50,165 (benign_trainer:68) INFO: the test poisoning samples: 91
-2023-07-17 16:04:50,165 (benign_trainer:80) INFO: the test poisoning accuracy: 0.142857
-2023-07-17 16:04:50,209 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,210 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,217 (benign_trainer:68) INFO: the val poisoning samples: 69
-2023-07-17 16:04:50,217 (benign_trainer:80) INFO: the val poisoning accuracy: 0.072464
-2023-07-17 16:04:50,271 (benign_trainer:68) INFO: the test poisoning samples: 70
-2023-07-17 16:04:50,271 (benign_trainer:80) INFO: the test poisoning accuracy: 0.185714
-2023-07-17 16:04:50,316 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,316 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,321 (benign_trainer:68) INFO: the val poisoning samples: 60
-2023-07-17 16:04:50,321 (benign_trainer:80) INFO: the val poisoning accuracy: 0.183333
-2023-07-17 16:04:50,381 (benign_trainer:68) INFO: the test poisoning samples: 146
-2023-07-17 16:04:50,381 (benign_trainer:80) INFO: the test poisoning accuracy: 0.19863
-2023-07-17 16:04:50,426 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,426 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,430 (benign_trainer:68) INFO: the val poisoning samples: 40
-2023-07-17 16:04:50,430 (benign_trainer:80) INFO: the val poisoning accuracy: 0.125
-2023-07-17 16:04:50,487 (benign_trainer:68) INFO: the test poisoning samples: 100
-2023-07-17 16:04:50,487 (benign_trainer:80) INFO: the test poisoning accuracy: 0.09
-2023-07-17 16:04:50,532 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,532 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,540 (benign_trainer:68) INFO: the val poisoning samples: 86
-2023-07-17 16:04:50,540 (benign_trainer:80) INFO: the val poisoning accuracy: 0.174419
-2023-07-17 16:04:50,591 (benign_trainer:68) INFO: the test poisoning samples: 34
-2023-07-17 16:04:50,591 (benign_trainer:80) INFO: the test poisoning accuracy: 0.147059
-2023-07-17 16:04:50,636 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,636 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,640 (benign_trainer:68) INFO: the val poisoning samples: 32
-2023-07-17 16:04:50,640 (benign_trainer:80) INFO: the val poisoning accuracy: 0.21875
-2023-07-17 16:04:50,697 (benign_trainer:68) INFO: the test poisoning samples: 115
-2023-07-17 16:04:50,697 (benign_trainer:80) INFO: the test poisoning accuracy: 0.147826
-2023-07-17 16:04:50,742 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,742 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,753 (benign_trainer:68) INFO: the val poisoning samples: 126
-2023-07-17 16:04:50,753 (benign_trainer:80) INFO: the val poisoning accuracy: 0.246032
-2023-07-17 16:04:50,818 (benign_trainer:68) INFO: the test poisoning samples: 200
-2023-07-17 16:04:50,818 (benign_trainer:80) INFO: the test poisoning accuracy: 0.18
-2023-07-17 16:04:50,862 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,862 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,875 (benign_trainer:68) INFO: the val poisoning samples: 144
-2023-07-17 16:04:50,875 (benign_trainer:80) INFO: the val poisoning accuracy: 0.125
-2023-07-17 16:04:50,930 (benign_trainer:68) INFO: the test poisoning samples: 77
-2023-07-17 16:04:50,930 (benign_trainer:80) INFO: the test poisoning accuracy: 0.194805
-2023-07-17 16:04:50,975 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,975 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:50,983 (benign_trainer:68) INFO: the val poisoning samples: 73
-2023-07-17 16:04:50,983 (benign_trainer:80) INFO: the val poisoning accuracy: 0.09589
-2023-07-17 16:04:51,045 (benign_trainer:68) INFO: the test poisoning samples: 164
-2023-07-17 16:04:51,045 (benign_trainer:80) INFO: the test poisoning accuracy: 0.27439
-2023-07-17 16:04:51,089 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,090 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,099 (benign_trainer:68) INFO: the val poisoning samples: 115
-2023-07-17 16:04:51,099 (benign_trainer:80) INFO: the val poisoning accuracy: 0.26087
-2023-07-17 16:04:51,156 (benign_trainer:68) INFO: the test poisoning samples: 111
-2023-07-17 16:04:51,156 (benign_trainer:80) INFO: the test poisoning accuracy: 0.207207
-2023-07-17 16:04:51,201 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,201 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,208 (benign_trainer:68) INFO: the val poisoning samples: 71
-2023-07-17 16:04:51,208 (benign_trainer:80) INFO: the val poisoning accuracy: 0.112676
-2023-07-17 16:04:51,267 (benign_trainer:68) INFO: the test poisoning samples: 129
-2023-07-17 16:04:51,267 (benign_trainer:80) INFO: the test poisoning accuracy: 0.170543
-2023-07-17 16:04:51,311 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,311 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,316 (benign_trainer:68) INFO: the val poisoning samples: 41
-2023-07-17 16:04:51,316 (benign_trainer:80) INFO: the val poisoning accuracy: 0.195122
-2023-07-17 16:04:51,370 (benign_trainer:68) INFO: the test poisoning samples: 67
-2023-07-17 16:04:51,370 (benign_trainer:80) INFO: the test poisoning accuracy: 0.074627
-2023-07-17 16:04:51,415 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,415 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,424 (benign_trainer:68) INFO: the val poisoning samples: 90
-2023-07-17 16:04:51,424 (benign_trainer:80) INFO: the val poisoning accuracy: 0.111111
-2023-07-17 16:04:51,483 (benign_trainer:68) INFO: the test poisoning samples: 137
-2023-07-17 16:04:51,484 (benign_trainer:80) INFO: the test poisoning accuracy: 0.153285
-2023-07-17 16:04:51,528 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,528 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,538 (benign_trainer:68) INFO: the val poisoning samples: 106
-2023-07-17 16:04:51,538 (benign_trainer:80) INFO: the val poisoning accuracy: 0.09434
-2023-07-17 16:04:51,592 (benign_trainer:68) INFO: the test poisoning samples: 69
-2023-07-17 16:04:51,592 (benign_trainer:80) INFO: the test poisoning accuracy: 0.188406
-2023-07-17 16:04:51,637 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,637 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,643 (benign_trainer:68) INFO: the val poisoning samples: 67
-2023-07-17 16:04:51,644 (benign_trainer:80) INFO: the val poisoning accuracy: 0.089552
-2023-07-17 16:04:51,700 (benign_trainer:68) INFO: the test poisoning samples: 103
-2023-07-17 16:04:51,700 (benign_trainer:80) INFO: the test poisoning accuracy: 0.15534
-2023-07-17 16:04:51,745 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,745 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,757 (benign_trainer:68) INFO: the val poisoning samples: 151
-2023-07-17 16:04:51,758 (benign_trainer:80) INFO: the val poisoning accuracy: 0.264901
-2023-07-17 16:04:51,813 (benign_trainer:68) INFO: the test poisoning samples: 77
-2023-07-17 16:04:51,813 (benign_trainer:80) INFO: the test poisoning accuracy: 0.168831
-2023-07-17 16:04:51,858 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,858 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,862 (benign_trainer:68) INFO: the val poisoning samples: 30
-2023-07-17 16:04:51,862 (benign_trainer:80) INFO: the val poisoning accuracy: 0.233333
-2023-07-17 16:04:51,918 (benign_trainer:68) INFO: the test poisoning samples: 86
-2023-07-17 16:04:51,919 (benign_trainer:80) INFO: the test poisoning accuracy: 0.127907
-2023-07-17 16:04:51,963 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,963 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:51,968 (benign_trainer:68) INFO: the val poisoning samples: 55
-2023-07-17 16:04:51,968 (benign_trainer:80) INFO: the val poisoning accuracy: 0.145455
-2023-07-17 16:04:52,021 (benign_trainer:68) INFO: the test poisoning samples: 57
-2023-07-17 16:04:52,021 (benign_trainer:80) INFO: the test poisoning accuracy: 0.192982
-2023-07-17 16:04:52,066 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,066 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,079 (benign_trainer:68) INFO: the val poisoning samples: 135
-2023-07-17 16:04:52,079 (benign_trainer:80) INFO: the val poisoning accuracy: 0.222222
-2023-07-17 16:04:52,134 (benign_trainer:68) INFO: the test poisoning samples: 82
-2023-07-17 16:04:52,134 (benign_trainer:80) INFO: the test poisoning accuracy: 0.158537
-2023-07-17 16:04:52,178 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,179 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,187 (benign_trainer:68) INFO: the val poisoning samples: 101
-2023-07-17 16:04:52,187 (benign_trainer:80) INFO: the val poisoning accuracy: 0.19802
-2023-07-17 16:04:52,244 (benign_trainer:68) INFO: the test poisoning samples: 98
-2023-07-17 16:04:52,244 (benign_trainer:80) INFO: the test poisoning accuracy: 0.142857
-2023-07-17 16:04:52,288 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,289 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,296 (benign_trainer:68) INFO: the val poisoning samples: 86
-2023-07-17 16:04:52,296 (benign_trainer:80) INFO: the val poisoning accuracy: 0.22093
-2023-07-17 16:04:52,352 (benign_trainer:68) INFO: the test poisoning samples: 90
-2023-07-17 16:04:52,353 (benign_trainer:80) INFO: the test poisoning accuracy: 0.222222
-2023-07-17 16:04:52,397 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,397 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,410 (benign_trainer:68) INFO: the val poisoning samples: 151
-2023-07-17 16:04:52,411 (benign_trainer:80) INFO: the val poisoning accuracy: 0.13245
-2023-07-17 16:04:52,463 (benign_trainer:68) INFO: the test poisoning samples: 45
-2023-07-17 16:04:52,463 (benign_trainer:80) INFO: the test poisoning accuracy: 0.266667
-2023-07-17 16:04:52,507 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,508 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,515 (benign_trainer:68) INFO: the val poisoning samples: 79
-2023-07-17 16:04:52,515 (benign_trainer:80) INFO: the val poisoning accuracy: 0.139241
-2023-07-17 16:04:52,568 (benign_trainer:68) INFO: the test poisoning samples: 50
-2023-07-17 16:04:52,568 (benign_trainer:80) INFO: the test poisoning accuracy: 0.12
-2023-07-17 16:04:52,613 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,613 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,619 (benign_trainer:68) INFO: the val poisoning samples: 58
-2023-07-17 16:04:52,619 (benign_trainer:80) INFO: the val poisoning accuracy: 0.189655
-2023-07-17 16:04:52,675 (benign_trainer:68) INFO: the test poisoning samples: 72
-2023-07-17 16:04:52,675 (benign_trainer:80) INFO: the test poisoning accuracy: 0.180556
-2023-07-17 16:04:52,719 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,720 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,738 (benign_trainer:68) INFO: the val poisoning samples: 227
-2023-07-17 16:04:52,738 (benign_trainer:80) INFO: the val poisoning accuracy: 0.229075
-2023-07-17 16:04:52,795 (benign_trainer:68) INFO: the test poisoning samples: 106
-2023-07-17 16:04:52,795 (benign_trainer:80) INFO: the test poisoning accuracy: 0.216981
-2023-07-17 16:04:52,840 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,840 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,853 (benign_trainer:68) INFO: the val poisoning samples: 131
-2023-07-17 16:04:52,853 (benign_trainer:80) INFO: the val poisoning accuracy: 0.251908
-2023-07-17 16:04:52,906 (benign_trainer:68) INFO: the test poisoning samples: 61
-2023-07-17 16:04:52,906 (benign_trainer:80) INFO: the test poisoning accuracy: 0.163934
-2023-07-17 16:04:52,951 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,951 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:52,959 (benign_trainer:68) INFO: the val poisoning samples: 87
-2023-07-17 16:04:52,959 (benign_trainer:80) INFO: the val poisoning accuracy: 0.08046
-2023-07-17 16:04:53,020 (benign_trainer:68) INFO: the test poisoning samples: 137
-2023-07-17 16:04:53,020 (benign_trainer:80) INFO: the test poisoning accuracy: 0.160584
-2023-07-17 16:04:53,065 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,065 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,070 (benign_trainer:68) INFO: the val poisoning samples: 55
-2023-07-17 16:04:53,070 (benign_trainer:80) INFO: the val poisoning accuracy: 0.2
-2023-07-17 16:04:53,125 (benign_trainer:68) INFO: the test poisoning samples: 78
-2023-07-17 16:04:53,126 (benign_trainer:80) INFO: the test poisoning accuracy: 0.102564
-2023-07-17 16:04:53,170 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,170 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,175 (benign_trainer:68) INFO: the val poisoning samples: 57
-2023-07-17 16:04:53,175 (benign_trainer:80) INFO: the val poisoning accuracy: 0.192982
-2023-07-17 16:04:53,230 (benign_trainer:68) INFO: the test poisoning samples: 76
-2023-07-17 16:04:53,230 (benign_trainer:80) INFO: the test poisoning accuracy: 0.078947
-2023-07-17 16:04:53,275 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,275 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,286 (benign_trainer:68) INFO: the val poisoning samples: 115
-2023-07-17 16:04:53,286 (benign_trainer:80) INFO: the val poisoning accuracy: 0.13913
-2023-07-17 16:04:53,341 (benign_trainer:68) INFO: the test poisoning samples: 71
-2023-07-17 16:04:53,341 (benign_trainer:80) INFO: the test poisoning accuracy: 0.126761
-2023-07-17 16:04:53,386 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,386 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,395 (benign_trainer:68) INFO: the val poisoning samples: 106
-2023-07-17 16:04:53,395 (benign_trainer:80) INFO: the val poisoning accuracy: 0.132075
-2023-07-17 16:04:53,454 (benign_trainer:68) INFO: the test poisoning samples: 107
-2023-07-17 16:04:53,454 (benign_trainer:80) INFO: the test poisoning accuracy: 0.17757
-2023-07-17 16:04:53,498 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,499 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,513 (benign_trainer:68) INFO: the val poisoning samples: 157
-2023-07-17 16:04:53,513 (benign_trainer:80) INFO: the val poisoning accuracy: 0.178344
-2023-07-17 16:04:53,569 (benign_trainer:68) INFO: the test poisoning samples: 102
-2023-07-17 16:04:53,569 (benign_trainer:80) INFO: the test poisoning accuracy: 0.098039
-2023-07-17 16:04:53,614 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,614 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,627 (benign_trainer:68) INFO: the val poisoning samples: 147
-2023-07-17 16:04:53,627 (benign_trainer:80) INFO: the val poisoning accuracy: 0.231293
-2023-07-17 16:04:53,682 (benign_trainer:68) INFO: the test poisoning samples: 76
-2023-07-17 16:04:53,682 (benign_trainer:80) INFO: the test poisoning accuracy: 0.171053
-2023-07-17 16:04:53,726 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,726 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,736 (benign_trainer:68) INFO: the val poisoning samples: 109
-2023-07-17 16:04:53,736 (benign_trainer:80) INFO: the val poisoning accuracy: 0.155963
-2023-07-17 16:04:53,788 (benign_trainer:68) INFO: the test poisoning samples: 59
-2023-07-17 16:04:53,788 (benign_trainer:80) INFO: the test poisoning accuracy: 0.152542
-2023-07-17 16:04:53,833 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,833 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,846 (benign_trainer:68) INFO: the val poisoning samples: 157
-2023-07-17 16:04:53,846 (benign_trainer:80) INFO: the val poisoning accuracy: 0.159236
-2023-07-17 16:04:53,902 (benign_trainer:68) INFO: the test poisoning samples: 94
-2023-07-17 16:04:53,903 (benign_trainer:80) INFO: the test poisoning accuracy: 0.212766
-2023-07-17 16:04:53,947 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,947 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:53,952 (benign_trainer:68) INFO: the val poisoning samples: 56
-2023-07-17 16:04:53,952 (benign_trainer:80) INFO: the val poisoning accuracy: 0.125
-2023-07-17 16:04:54,008 (benign_trainer:68) INFO: the test poisoning samples: 77
-2023-07-17 16:04:54,008 (benign_trainer:80) INFO: the test poisoning accuracy: 0.233766
-2023-07-17 16:04:54,052 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,052 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,058 (benign_trainer:68) INFO: the val poisoning samples: 60
-2023-07-17 16:04:54,058 (benign_trainer:80) INFO: the val poisoning accuracy: 0.233333
-2023-07-17 16:04:54,109 (benign_trainer:68) INFO: the test poisoning samples: 33
-2023-07-17 16:04:54,109 (benign_trainer:80) INFO: the test poisoning accuracy: 0.272727
-2023-07-17 16:04:54,153 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,154 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,165 (benign_trainer:68) INFO: the val poisoning samples: 130
-2023-07-17 16:04:54,165 (benign_trainer:80) INFO: the val poisoning accuracy: 0.223077
-2023-07-17 16:04:54,221 (benign_trainer:68) INFO: the test poisoning samples: 87
-2023-07-17 16:04:54,221 (benign_trainer:80) INFO: the test poisoning accuracy: 0.137931
-2023-07-17 16:04:54,265 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,265 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,278 (benign_trainer:68) INFO: the val poisoning samples: 140
-2023-07-17 16:04:54,278 (benign_trainer:80) INFO: the val poisoning accuracy: 0.171429
-2023-07-17 16:04:54,330 (benign_trainer:68) INFO: the test poisoning samples: 50
-2023-07-17 16:04:54,330 (benign_trainer:80) INFO: the test poisoning accuracy: 0.12
-2023-07-17 16:04:54,375 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,375 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,385 (benign_trainer:68) INFO: the val poisoning samples: 113
-2023-07-17 16:04:54,385 (benign_trainer:80) INFO: the val poisoning accuracy: 0.19469
-2023-07-17 16:04:54,439 (benign_trainer:68) INFO: the test poisoning samples: 52
-2023-07-17 16:04:54,439 (benign_trainer:80) INFO: the test poisoning accuracy: 0.173077
-2023-07-17 16:04:54,484 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,484 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,489 (benign_trainer:68) INFO: the val poisoning samples: 44
-2023-07-17 16:04:54,489 (benign_trainer:80) INFO: the val poisoning accuracy: 0.113636
-2023-07-17 16:04:54,547 (benign_trainer:68) INFO: the test poisoning samples: 120
-2023-07-17 16:04:54,547 (benign_trainer:80) INFO: the test poisoning accuracy: 0.216667
-2023-07-17 16:04:54,591 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,591 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,599 (benign_trainer:68) INFO: the val poisoning samples: 91
-2023-07-17 16:04:54,600 (benign_trainer:80) INFO: the val poisoning accuracy: 0.164835
-2023-07-17 16:04:54,664 (benign_trainer:68) INFO: the test poisoning samples: 176
-2023-07-17 16:04:54,664 (benign_trainer:80) INFO: the test poisoning accuracy: 0.181818
-2023-07-17 16:04:54,708 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,709 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,718 (benign_trainer:68) INFO: the val poisoning samples: 93
-2023-07-17 16:04:54,718 (benign_trainer:80) INFO: the val poisoning accuracy: 0.182796
-2023-07-17 16:04:54,774 (benign_trainer:68) INFO: the test poisoning samples: 94
-2023-07-17 16:04:54,774 (benign_trainer:80) INFO: the test poisoning accuracy: 0.234043
-2023-07-17 16:04:54,818 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,819 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,834 (benign_trainer:68) INFO: the val poisoning samples: 187
-2023-07-17 16:04:54,835 (benign_trainer:80) INFO: the val poisoning accuracy: 0.15508
-2023-07-17 16:04:54,890 (benign_trainer:68) INFO: the test poisoning samples: 83
-2023-07-17 16:04:54,890 (benign_trainer:80) INFO: the test poisoning accuracy: 0.180723
-2023-07-17 16:04:54,934 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,935 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:54,943 (benign_trainer:68) INFO: the val poisoning samples: 93
-2023-07-17 16:04:54,943 (benign_trainer:80) INFO: the val poisoning accuracy: 0.11828
-2023-07-17 16:04:54,996 (benign_trainer:68) INFO: the test poisoning samples: 58
-2023-07-17 16:04:54,996 (benign_trainer:80) INFO: the test poisoning accuracy: 0.103448
-2023-07-17 16:04:55,041 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,041 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,050 (benign_trainer:68) INFO: the val poisoning samples: 105
-2023-07-17 16:04:55,050 (benign_trainer:80) INFO: the val poisoning accuracy: 0.190476
-2023-07-17 16:04:55,115 (benign_trainer:68) INFO: the test poisoning samples: 193
-2023-07-17 16:04:55,115 (benign_trainer:80) INFO: the test poisoning accuracy: 0.134715
-2023-07-17 16:04:55,160 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,160 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,169 (benign_trainer:68) INFO: the val poisoning samples: 113
-2023-07-17 16:04:55,169 (benign_trainer:80) INFO: the val poisoning accuracy: 0.185841
-2023-07-17 16:04:55,224 (benign_trainer:68) INFO: the test poisoning samples: 42
-2023-07-17 16:04:55,224 (benign_trainer:80) INFO: the test poisoning accuracy: 0.166667
-2023-07-17 16:04:55,269 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,269 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,290 (benign_trainer:68) INFO: the val poisoning samples: 159
-2023-07-17 16:04:55,291 (benign_trainer:80) INFO: the val poisoning accuracy: 0.194969
-2023-07-17 16:04:55,344 (benign_trainer:68) INFO: the test poisoning samples: 51
-2023-07-17 16:04:55,344 (benign_trainer:80) INFO: the test poisoning accuracy: 0.196078
-2023-07-17 16:04:55,388 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,389 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,399 (benign_trainer:68) INFO: the val poisoning samples: 111
-2023-07-17 16:04:55,399 (benign_trainer:80) INFO: the val poisoning accuracy: 0.18018
-2023-07-17 16:04:55,454 (benign_trainer:68) INFO: the test poisoning samples: 88
-2023-07-17 16:04:55,454 (benign_trainer:80) INFO: the test poisoning accuracy: 0.147727
-2023-07-17 16:04:55,499 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,499 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,512 (benign_trainer:68) INFO: the val poisoning samples: 139
-2023-07-17 16:04:55,512 (benign_trainer:80) INFO: the val poisoning accuracy: 0.093525
-2023-07-17 16:04:55,566 (benign_trainer:68) INFO: the test poisoning samples: 66
-2023-07-17 16:04:55,566 (benign_trainer:80) INFO: the test poisoning accuracy: 0.090909
-2023-07-17 16:04:55,611 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,611 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,621 (benign_trainer:68) INFO: the val poisoning samples: 109
-2023-07-17 16:04:55,621 (benign_trainer:80) INFO: the val poisoning accuracy: 0.201835
-2023-07-17 16:04:55,673 (benign_trainer:68) INFO: the test poisoning samples: 43
-2023-07-17 16:04:55,673 (benign_trainer:80) INFO: the test poisoning accuracy: 0.116279
-2023-07-17 16:04:55,717 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,718 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,720 (benign_trainer:68) INFO: the val poisoning samples: 16
-2023-07-17 16:04:55,720 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0625
-2023-07-17 16:04:55,776 (benign_trainer:68) INFO: the test poisoning samples: 91
-2023-07-17 16:04:55,776 (benign_trainer:80) INFO: the test poisoning accuracy: 0.230769
-2023-07-17 16:04:55,820 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,821 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,829 (benign_trainer:68) INFO: the val poisoning samples: 88
-2023-07-17 16:04:55,829 (benign_trainer:80) INFO: the val poisoning accuracy: 0.159091
-2023-07-17 16:04:55,886 (benign_trainer:68) INFO: the test poisoning samples: 86
-2023-07-17 16:04:55,886 (benign_trainer:80) INFO: the test poisoning accuracy: 0.22093
-2023-07-17 16:04:55,930 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,930 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:55,934 (benign_trainer:68) INFO: the val poisoning samples: 46
-2023-07-17 16:04:55,934 (benign_trainer:80) INFO: the val poisoning accuracy: 0.195652
-2023-07-17 16:04:55,992 (benign_trainer:68) INFO: the test poisoning samples: 113
-2023-07-17 16:04:55,992 (benign_trainer:80) INFO: the test poisoning accuracy: 0.221239
-2023-07-17 16:04:56,036 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:56,036 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:56,045 (benign_trainer:68) INFO: the val poisoning samples: 103
-2023-07-17 16:04:56,045 (benign_trainer:80) INFO: the val poisoning accuracy: 0.23301
-2023-07-17 16:04:56,106 (benign_trainer:68) INFO: the test poisoning samples: 151
-2023-07-17 16:04:56,106 (benign_trainer:80) INFO: the test poisoning accuracy: 0.245033
-2023-07-17 16:04:56,151 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:56,151 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:56,159 (benign_trainer:68) INFO: the val poisoning samples: 85
-2023-07-17 16:04:56,159 (benign_trainer:80) INFO: the val poisoning accuracy: 0.223529
-2023-07-17 16:04:56,216 (benign_trainer:68) INFO: the test poisoning samples: 84
-2023-07-17 16:04:56,216 (benign_trainer:80) INFO: the test poisoning accuracy: 0.27381
-2023-07-17 16:04:56,261 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:56,261 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:56,269 (benign_trainer:68) INFO: the val poisoning samples: 39
-2023-07-17 16:04:56,269 (benign_trainer:80) INFO: the val poisoning accuracy: 0.153846
-2023-07-17 16:04:56,328 (benign_trainer:68) INFO: the test poisoning samples: 101
-2023-07-17 16:04:56,328 (benign_trainer:80) INFO: the test poisoning accuracy: 0.19802
-2023-07-17 16:04:56,373 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:56,373 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:56,380 (benign_trainer:68) INFO: the val poisoning samples: 63
-2023-07-17 16:04:56,380 (benign_trainer:80) INFO: the val poisoning accuracy: 0.174603
-2023-07-17 16:04:56,433 (benign_trainer:68) INFO: the test poisoning samples: 51
-2023-07-17 16:04:56,433 (benign_trainer:80) INFO: the test poisoning accuracy: 0.196078
-2023-07-17 16:04:56,478 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:56,478 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:56,486 (benign_trainer:68) INFO: the val poisoning samples: 93
-2023-07-17 16:04:56,486 (benign_trainer:80) INFO: the val poisoning accuracy: 0.247312
-2023-07-17 16:04:56,542 (benign_trainer:68) INFO: the test poisoning samples: 77
-2023-07-17 16:04:56,542 (benign_trainer:80) INFO: the test poisoning accuracy: 0.220779
-2023-07-17 16:04:56,587 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:56,587 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
-2023-07-17 16:04:56,591 (benign_trainer:68) INFO: the val poisoning samples: 46
-2023-07-17 16:04:56,591 (benign_trainer:80) INFO: the val poisoning accuracy: 0.217391
-2023-07-17 16:04:56,681 (client:352) INFO: {'Role': 'Client #1', 'Round': 153, 'Results_raw': {'train_correct': 685.0, 'train_avg_loss': 0.192142, 'train_loss': 132.770127, 'train_total': 691, 'train_acc': 0.991317}}
-2023-07-17 16:04:56,792 (client:352) INFO: {'Role': 'Client #31', 'Round': 153, 'Results_raw': {'train_correct': 667.0, 'train_avg_loss': 0.424826, 'train_loss': 330.089605, 'train_total': 777, 'train_acc': 0.85843}}
-2023-07-17 16:04:56,861 (client:352) INFO: {'Role': 'Client #42', 'Round': 153, 'Results_raw': {'train_correct': 190.0, 'train_avg_loss': 0.629117, 'train_loss': 152.246425, 'train_total': 242, 'train_acc': 0.785124}}
-2023-07-17 16:04:56,930 (client:352) INFO: {'Role': 'Client #80', 'Round': 153, 'Results_raw': {'train_correct': 187.0, 'train_avg_loss': 0.746192, 'train_loss': 188.786569, 'train_total': 253, 'train_acc': 0.73913}}
-2023-07-17 16:04:57,019 (client:352) INFO: {'Role': 'Client #88', 'Round': 153, 'Results_raw': {'train_correct': 382.0, 'train_avg_loss': 0.641681, 'train_loss': 316.990628, 'train_total': 494, 'train_acc': 0.773279}}
-2023-07-17 16:04:57,102 (client:352) INFO: {'Role': 'Client #59', 'Round': 153, 'Results_raw': {'train_correct': 363.0, 'train_avg_loss': 0.473812, 'train_loss': 204.213184, 'train_total': 431, 'train_acc': 0.842227}}
-2023-07-17 16:04:57,169 (client:352) INFO: {'Role': 'Client #50', 'Round': 153, 'Results_raw': {'train_correct': 191.0, 'train_avg_loss': 0.467131, 'train_loss': 103.703013, 'train_total': 222, 'train_acc': 0.86036}}
-2023-07-17 16:04:57,247 (client:352) INFO: {'Role': 'Client #52', 'Round': 153, 'Results_raw': {'train_correct': 236.0, 'train_avg_loss': 0.918068, 'train_loss': 326.832184, 'train_total': 356, 'train_acc': 0.662921}}
-2023-07-17 16:04:57,319 (client:352) INFO: {'Role': 'Client #16', 'Round': 153, 'Results_raw': {'train_correct': 232.0, 'train_avg_loss': 0.420679, 'train_loss': 113.583368, 'train_total': 270, 'train_acc': 0.859259}}
-2023-07-17 16:04:57,391 (client:352) INFO: {'Role': 'Client #87', 'Round': 153, 'Results_raw': {'train_correct': 243.0, 'train_avg_loss': 0.550251, 'train_loss': 166.726123, 'train_total': 303, 'train_acc': 0.80198}}
-2023-07-17 16:04:57,405 (server:602) INFO: {'Role': 'Server #', 'Round': 153, 'Results_weighted_avg': {'test_correct': 67.92, 'test_avg_loss': 0.908752, 'test_loss': 103.342264, 'test_total': 100.0, 'test_acc': 0.6792, 'val_correct': 68.67, 'val_avg_loss': 0.901957, 'val_loss': 110.492302, 'val_total': 100.0, 'val_acc': 0.6867}, 'Results_avg': {'test_correct': 67.92, 'test_avg_loss': 0.916794, 'test_loss': 90.875213, 'test_total': 100.0, 'test_acc': 0.675013, 'val_correct': 68.67, 'val_avg_loss': 0.923495, 'val_loss': 90.195709, 'val_total': 100.0, 'val_acc': 0.68042}, 'Results_fairness': {'test_correct': 67.92, 'test_total': 100.0, 'val_correct': 68.67, 'val_total': 100.0, 'test_avg_loss_std': 0.202549, 'test_avg_loss_bottom_decile': 0.665461, 'test_avg_loss_top_decile': 1.212767, 'test_avg_loss_min': 0.463345, 'test_avg_loss_max': 1.420665, 'test_avg_loss_bottom10%': 0.588701, 'test_avg_loss_top10%': 1.295388, 'test_avg_loss_cos1': 0.976453, 'test_avg_loss_entropy': 4.580741, 'test_loss_std': 38.292019, 'test_loss_bottom_decile': 46.859479, 'test_loss_top_decile': 148.413949, 'test_loss_min': 22.711578, 'test_loss_max': 226.787505, 'test_loss_bottom10%': 38.673878, 'test_loss_top1
+2023-07-17 16:54:43,911 (monitor:542) INFO: {'Role': 'Server #', 'Round': 189, 'Results_model_metric': {}}
+2023-07-17 16:54:44,013 (server:340) INFO: Server: Starting evaluation at the end of round 189.
+2023-07-17 16:54:44,013 (server:346) INFO: ----------- Starting a new training round (Round #190) -------------
+2023-07-17 16:54:44,032 (benign_trainer:68) INFO: the test poisoning samples: 70
+2023-07-17 16:54:44,032 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:44,057 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,057 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,070 (benign_trainer:68) INFO: the val poisoning samples: 155
+2023-07-17 16:54:44,070 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:44,109 (benign_trainer:68) INFO: the test poisoning samples: 70
+2023-07-17 16:54:44,109 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:44,133 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,133 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,138 (benign_trainer:68) INFO: the val poisoning samples: 62
+2023-07-17 16:54:44,139 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:44,175 (benign_trainer:68) INFO: the test poisoning samples: 90
+2023-07-17 16:54:44,176 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:44,200 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,201 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,219 (benign_trainer:68) INFO: the val poisoning samples: 216
+2023-07-17 16:54:44,219 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:44,259 (benign_trainer:68) INFO: the test poisoning samples: 120
+2023-07-17 16:54:44,259 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:44,285 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,285 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,288 (benign_trainer:68) INFO: the val poisoning samples: 22
+2023-07-17 16:54:44,289 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:44,326 (benign_trainer:68) INFO: the test poisoning samples: 88
+2023-07-17 16:54:44,326 (benign_trainer:80) INFO: the test poisoning accuracy: 0.113636
+2023-07-17 16:54:44,350 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,350 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,360 (benign_trainer:68) INFO: the val poisoning samples: 94
+2023-07-17 16:54:44,360 (benign_trainer:80) INFO: the val poisoning accuracy: 0.042553
+2023-07-17 16:54:44,395 (benign_trainer:68) INFO: the test poisoning samples: 82
+2023-07-17 16:54:44,395 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:44,421 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,421 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,432 (benign_trainer:68) INFO: the val poisoning samples: 78
+2023-07-17 16:54:44,432 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:44,464 (benign_trainer:68) INFO: the test poisoning samples: 49
+2023-07-17 16:54:44,464 (benign_trainer:80) INFO: the test poisoning accuracy: 0.040816
+2023-07-17 16:54:44,490 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,490 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,497 (benign_trainer:68) INFO: the val poisoning samples: 75
+2023-07-17 16:54:44,497 (benign_trainer:80) INFO: the val poisoning accuracy: 0.013333
+2023-07-17 16:54:44,531 (benign_trainer:68) INFO: the test poisoning samples: 70
+2023-07-17 16:54:44,531 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:44,557 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,557 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,564 (benign_trainer:68) INFO: the val poisoning samples: 76
+2023-07-17 16:54:44,564 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:44,599 (benign_trainer:68) INFO: the test poisoning samples: 56
+2023-07-17 16:54:44,599 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:44,625 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,625 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,632 (benign_trainer:68) INFO: the val poisoning samples: 69
+2023-07-17 16:54:44,632 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:44,675 (benign_trainer:68) INFO: the test poisoning samples: 157
+2023-07-17 16:54:44,675 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:44,700 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,700 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,710 (benign_trainer:68) INFO: the val poisoning samples: 128
+2023-07-17 16:54:44,710 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:44,745 (benign_trainer:68) INFO: the test poisoning samples: 44
+2023-07-17 16:54:44,745 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:44,769 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,769 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,773 (benign_trainer:68) INFO: the val poisoning samples: 37
+2023-07-17 16:54:44,773 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:44,810 (benign_trainer:68) INFO: the test poisoning samples: 94
+2023-07-17 16:54:44,810 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:44,835 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,835 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,842 (benign_trainer:68) INFO: the val poisoning samples: 81
+2023-07-17 16:54:44,842 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:44,875 (benign_trainer:68) INFO: the test poisoning samples: 37
+2023-07-17 16:54:44,875 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:44,900 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,901 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,903 (benign_trainer:68) INFO: the val poisoning samples: 11
+2023-07-17 16:54:44,903 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:44,937 (benign_trainer:68) INFO: the test poisoning samples: 65
+2023-07-17 16:54:44,937 (benign_trainer:80) INFO: the test poisoning accuracy: 0.015385
+2023-07-17 16:54:44,963 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,963 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:44,967 (benign_trainer:68) INFO: the val poisoning samples: 47
+2023-07-17 16:54:44,967 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:45,002 (benign_trainer:68) INFO: the test poisoning samples: 90
+2023-07-17 16:54:45,003 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:45,028 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,028 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,036 (benign_trainer:68) INFO: the val poisoning samples: 91
+2023-07-17 16:54:45,036 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:45,073 (benign_trainer:68) INFO: the test poisoning samples: 89
+2023-07-17 16:54:45,073 (benign_trainer:80) INFO: the test poisoning accuracy: 0.011236
+2023-07-17 16:54:45,098 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,098 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,104 (benign_trainer:68) INFO: the val poisoning samples: 60
+2023-07-17 16:54:45,104 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:45,140 (benign_trainer:68) INFO: the test poisoning samples: 79
+2023-07-17 16:54:45,140 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:45,166 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,166 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,174 (benign_trainer:68) INFO: the val poisoning samples: 71
+2023-07-17 16:54:45,174 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:45,218 (benign_trainer:68) INFO: the test poisoning samples: 70
+2023-07-17 16:54:45,218 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:45,244 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,244 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,253 (benign_trainer:68) INFO: the val poisoning samples: 89
+2023-07-17 16:54:45,253 (benign_trainer:80) INFO: the val poisoning accuracy: 0.011236
+2023-07-17 16:54:45,290 (benign_trainer:68) INFO: the test poisoning samples: 85
+2023-07-17 16:54:45,290 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:45,315 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,315 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,319 (benign_trainer:68) INFO: the val poisoning samples: 37
+2023-07-17 16:54:45,319 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:45,354 (benign_trainer:68) INFO: the test poisoning samples: 73
+2023-07-17 16:54:45,354 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:45,380 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,380 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,385 (benign_trainer:68) INFO: the val poisoning samples: 50
+2023-07-17 16:54:45,385 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:45,425 (benign_trainer:68) INFO: the test poisoning samples: 150
+2023-07-17 16:54:45,425 (benign_trainer:80) INFO: the test poisoning accuracy: 0.013333
+2023-07-17 16:54:45,450 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,450 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,459 (benign_trainer:68) INFO: the val poisoning samples: 88
+2023-07-17 16:54:45,459 (benign_trainer:80) INFO: the val poisoning accuracy: 0.022727
+2023-07-17 16:54:45,493 (benign_trainer:68) INFO: the test poisoning samples: 51
+2023-07-17 16:54:45,493 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:45,518 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,518 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,526 (benign_trainer:68) INFO: the val poisoning samples: 102
+2023-07-17 16:54:45,526 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:45,566 (benign_trainer:68) INFO: the test poisoning samples: 108
+2023-07-17 16:54:45,566 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:45,592 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,592 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,601 (benign_trainer:68) INFO: the val poisoning samples: 105
+2023-07-17 16:54:45,601 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:45,637 (benign_trainer:68) INFO: the test poisoning samples: 100
+2023-07-17 16:54:45,637 (benign_trainer:80) INFO: the test poisoning accuracy: 0.49
+2023-07-17 16:54:45,662 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,662 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,669 (benign_trainer:68) INFO: the val poisoning samples: 57
+2023-07-17 16:54:45,669 (benign_trainer:80) INFO: the val poisoning accuracy: 0.508772
+2023-07-17 16:54:45,704 (benign_trainer:68) INFO: the test poisoning samples: 69
+2023-07-17 16:54:45,704 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:45,729 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,729 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,735 (benign_trainer:68) INFO: the val poisoning samples: 65
+2023-07-17 16:54:45,735 (benign_trainer:80) INFO: the val poisoning accuracy: 0.0
+2023-07-17 16:54:45,772 (benign_trainer:68) INFO: the test poisoning samples: 90
+2023-07-17 16:54:45,772 (benign_trainer:80) INFO: the test poisoning accuracy: 0.0
+2023-07-17 16:54:45,796 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,796 (context:226) WARNING: cur_mode `test` mismatch mode `val`, will use `val` to calculate `ctx.var`.
+2023-07-17 16:54:45,805 (benign_trainer:68) INFO: the val poisoning samples: 121

@@ -125,8 +125,25 @@ def addTrigger(dataset,
             int(len(dataset) * inject_portion) +
             1):int(len(dataset) * inject_portion * (1 + cross_portion))]
     else:
-        perm = np.random.permutation(
-            len(dataset))[0:int(len(dataset) * inject_portion)]
+        
+        # anthony
+        if label_type == 'dirty':
+            perm = np.random.permutation(
+                len(dataset))[0:int(len(dataset) * inject_portion)]
+        elif label_type == 'clean':
+            # anthony
+            # ! modify to recalculate the perm
+            # ! this is because narci only poison a certain percentage of samples in target class
+            target_label_indices = [i for i in range(len(dataset)) if dataset[i][1] == target_label]
+            # randomly select a certain percentage of those indices
+            n_to_select = int(len(dataset) * inject_portion)
+            if n_to_select > len(target_label_indices):
+                # ! this could happen because the 'inject_portion' refers to the whole dataset rather than the target class samples
+                n_to_select = len(target_label_indices)
+                logger.info('Anthony: the poison rate exceed the maximum, we poison all the target samples!')
+            perm = np.random.choice(target_label_indices, size=n_to_select, replace=False)
+            # TODO: Since we use lda as the data splitter and use a very non-iid argument 'alpha=0.05' , the attacker should generate the trigger corresponding to its most labeled data.
+        # anthony
 
     dataset_ = list()
     for i in range(len(dataset)):
@@ -169,8 +186,48 @@ def addTrigger(dataset,
                 else:
                     dataset_.append((img, data[1]))
 
-        elif label_type == 'clean_label':
-            pass
+        elif label_type == 'clean':
+            
+            # all2one attack
+            if mode == MODE.TRAIN:
+                img = np.array(data[0]).transpose(1, 2, 0) * 255.0
+                img = np.clip(img.astype('uint8'), 0, 255)
+                height = img.shape[0]
+                width = img.shape[1]
+
+                if i in perm:
+                    img = selectTrigger(img, height, width, distance, trig_h,
+                                        trig_w, trigger_type, load_path)
+                    # anthony
+                    dataset_.append((img, data[1]))
+                    # anthony
+
+                elif 'wanet' in trigger_type and i in perm_cross:
+                    img = selectTrigger(img, width, height, distance, trig_w,
+                                        trig_h, 'wanetTriggerCross', load_path)
+                    dataset_.append((img, data[1]))
+
+                else:
+                    dataset_.append((img, data[1]))
+
+            if mode == MODE.TEST or mode == MODE.VAL:
+                if data[1] == target_label:
+                    continue
+
+                img = np.array(data[0]).transpose(1, 2, 0) * 255.0
+                img = np.clip(img.astype('uint8'), 0, 255)
+                height = img.shape[0]
+                width = img.shape[1]
+                if i in perm:
+                    # anthony
+                    # ! in Narci, during test and validation, the author magnify its trigger by 3 times
+                    for _ in range(3):
+                        img = selectTrigger(img, width, height, distance, trig_w,
+                                            trig_h, trigger_type, load_path)
+                    dataset_.append((img, data[1]))
+                    # anthony
+                else:
+                    dataset_.append((img, data[1]))
 
     return dataset_
 
