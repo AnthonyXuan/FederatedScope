@@ -6,7 +6,7 @@ seed: 12345
 federate:
   mode: standalone
   method: Ditto
-  client_num: 10
+  client_num: 100
   total_round_num: 500
   sample_client_rate: 0.2
   make_global_eval: False

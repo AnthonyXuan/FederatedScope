@@ -143,3 +143,7 @@ data/
 
 #  ! I don't want to upload exp/ now
 exp/
+
+nohup.out
+
+xuan-output/
