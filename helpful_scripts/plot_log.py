@@ -2,7 +2,7 @@ import json
 import matplotlib.pyplot as plt
 
 # 提供了日志文件的路径
-logfile = 'eval_results.log'
+logfile = '../eval_results.log'
 
 # 提供了你想要绘制的变量的路径
 variable_path = ['Results_weighted_avg', 'test_acc']

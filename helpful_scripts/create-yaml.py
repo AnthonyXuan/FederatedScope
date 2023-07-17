@@ -1,6 +1,8 @@
 import yaml
 import os
 
+base_folder = '../new-scripts'
+
 class BaseConfig:
     def __init__(self):
         # fixed sample rate, total rounds, client number.
@@ -125,4 +127,4 @@ badnet_fedavg = FedAvgConfig(attack_type='badnet')
 cfgs = [naive_ditto, badnet_ditto, naive_fedavg, badnet_fedavg]
 
 for cfg in cfgs:
-    write_config_to_yaml(cfg, os.path.join('./new-scripts', cfg.expname_tag + '.yaml'))
+    write_config_to_yaml(cfg, os.path.join(base_folder, cfg.expname_tag + '.yaml'))
