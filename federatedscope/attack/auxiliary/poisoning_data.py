@@ -13,7 +13,7 @@ import os
 
 logger = logging.getLogger(__name__)
 
-
+# 导入edge攻击方式的后门数据集，这种攻击方法直接edge导入数据集，而不需要add_trigger()
 def load_poisoned_dataset_edgeset(data, ctx, mode):
 
     transforms_funcs, _, _ = get_transform(ctx, 'torchvision')['transform']
@@ -97,7 +97,7 @@ def load_poisoned_dataset_edgeset(data, ctx, mode):
 
     return data
 
-
+# 向数据中加入trigger，以完成投毒
 def addTrigger(dataset,
                target_label,
                inject_portion,
@@ -231,7 +231,7 @@ def addTrigger(dataset,
 
     return dataset_
 
-
+# 导入基于后门触发器的后门数据集
 def load_poisoned_dataset_pixel(data, ctx, mode):
 
     trigger_type = ctx.attack.trigger_type

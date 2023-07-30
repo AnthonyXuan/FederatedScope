@@ -1,10 +1,10 @@
 attack:
   attack_method: backdoor
   attacker_id: 1
-  freq: 100
+  freq: 3
   label_type: dirty
   mean: [0.4914, 0.4822, 0.4465]
-  poison_ratio: 1.0e-05
+  poison_ratio: 0.05
   setting: fix
   std: [0.247, 0.2435, 0.2616]
   target_label_ind: 7
@@ -38,7 +38,7 @@ eval:
   freq: 1
   metrics: [acc, correct]
   split: [test, val]
-expname_tag: naive_fedavg
+expname_tag: badnet_fedavg
 federate: {client_num: 100, make_global_eval: false, merge_test_data: false, method: FedAvg,
   mode: standalone, sample_client_rate: 0.1, total_round_num: 500}
 grad: {grad_clip: 5.0}
@@ -47,7 +47,7 @@ outdir: new-output/
 seed: 12345
 train:
   batch_or_epoch: epoch
-  local_update_steps: 1
+  local_update_steps: 2
   optimizer: {lr: 0.1, weight_decay: 0.0}
 trainer: {type: cvtrainer}
 use_gpu: true

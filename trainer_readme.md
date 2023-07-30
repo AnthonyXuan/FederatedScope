@@ -1,0 +1,1 @@
+/home/tidal/xuan/FederatedScope/federatedscope/core/trainers/README.md

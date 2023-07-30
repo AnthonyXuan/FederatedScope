@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "run naive fedavg",
+            "type": "python",
+            "request": "launch",
+            "program": "./federatedscope/main.py",
+            "args": ["--cfg", "./new-scripts/naive_fedavg.yaml"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "run naive ditto",
+            "type": "python",
+            "request": "launch",
+            "program": "./federatedscope/main.py",
+            "args": ["--cfg", "./new-scripts-high-attack/naive_ditto.yaml"], 
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}

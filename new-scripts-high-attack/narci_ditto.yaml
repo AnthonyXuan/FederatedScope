@@ -4,7 +4,7 @@ attack:
   freq: 3
   label_type: clean
   mean: [0.4914, 0.4822, 0.4465]
-  poison_ratio: 0.01
+  poison_ratio: 0.05
   setting: fix
   std: [0.247, 0.2435, 0.2616]
   target_label_ind: 2
@@ -39,8 +39,8 @@ eval:
   freq: 1
   metrics: [acc, correct]
   split: [test, val]
-expname_tag: narci_fedavg
-federate: {client_num: 100, make_global_eval: false, merge_test_data: false, method: FedAvg,
+expname_tag: narci_ditto
+federate: {client_num: 100, make_global_eval: false, merge_test_data: false, method: Ditto,
   mode: standalone, sample_client_rate: 0.1, total_round_num: 500}
 grad: {grad_clip: 5.0}
 model: {dropout: 0.0, hidden: 2048, out_channels: 10, type: convnet2}
@@ -48,7 +48,7 @@ outdir: new-output/
 seed: 12345
 train:
   batch_or_epoch: epoch
-  local_update_steps: 1
+  local_update_steps: 2
   optimizer: {lr: 0.1, weight_decay: 0.0}
 trainer: {type: cvtrainer}
 use_gpu: true

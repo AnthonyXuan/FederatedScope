@@ -1,7 +1,7 @@
 import yaml
 import os
-
-base_folder = './new-scripts'
+# base_folder = './new-scripts'
+base_folder = './new-scripts-high-attack'
 
 class BaseConfig:
     def __init__(self):
@@ -39,7 +39,7 @@ class BaseConfig:
             "dropout": 0.0
         }
         self.train = {
-            "local_update_steps": 1,
+            # "local_update_steps": 1,
             "batch_or_epoch": "epoch",
             "optimizer": {
                 # "lr": 0.1,
@@ -85,7 +85,7 @@ class Attack():
             self.attack = {
                 "attack_method": "backdoor",
                 "setting": "fix",
-                "poison_ratio": 0.4,
+                "poison_ratio": 0.05,
                 "freq": 3,
                 "trigger_type": "squareTrigger",
                 "label_type": "dirty",
@@ -98,7 +98,7 @@ class Attack():
             self.attack = {
                 "attack_method": "backdoor",
                 "setting": "fix",
-                "poison_ratio": 0.01,
+                "poison_ratio": 0.05,
                 "freq": 3,
                 "trigger_type": "signalTrigger",
                 "label_type": "clean",
@@ -115,8 +115,9 @@ class DittoConfig(BaseConfig, Attack):
         Attack.__init__(self, attack_type=attack_type)
         self.federate["method"] = "Ditto"
         self.train["optimizer"]["lr"] = 0.1
+        self.train["local_update_steps"] = 2
         self.expname_tag =  attack_type +  '_ditto'
-        self.device = 0
+        self.device = 1
 
 class FedAvgConfig(BaseConfig, Attack):
     def __init__(self, attack_type):
@@ -124,6 +125,7 @@ class FedAvgConfig(BaseConfig, Attack):
         Attack.__init__(self, attack_type=attack_type)
         self.federate["method"] = "FedAvg"
         self.train["optimizer"]["lr"] = 0.1
+        self.train["local_update_steps"] = 2
         self.expname_tag =  attack_type +  '_fedavg'
         self.device = 1
 
