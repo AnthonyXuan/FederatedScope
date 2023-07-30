@@ -295,13 +295,20 @@ def load_poisoned_dataset_pixel(data, ctx, mode):
 
     return data
 
-
+# Anthony
+# ! Modify this function to convert Subset into list
 def add_trans_normalize(data, ctx):
     '''
     data for each client is a dictionary.
     '''
 
     for key in data:
+        # ! convert Subset into list
+        ori_dataset = data[key].dataset
+        list_dataset = [item for item in ori_dataset]
+        data[key] = DataLoader(list_dataset, batch_size=ctx.data.batch_size, shuffle=ctx.data.shuffle, num_workers=ctx.data.num_workers)
+        # ! Done
+        
         num_dataset = len(data[key].dataset)
         mean, std = ctx.attack.mean, ctx.attack.std
         if "CIFAR10" in ctx.data.type and key == MODE.TRAIN:
@@ -338,11 +345,12 @@ def select_poisoning(data, ctx, mode):
 
 
 def poisoning(data, ctx):
-    for i in range(1, len(data) + 1):
+    for i in range(1, len(data)):
         if i == ctx.attack.attacker_id:
             logger.info(50 * '-')
             logger.info('start poisoning at Client: {}'.format(i))
             logger.info(50 * '-')
+            # In function 'select_poisoning', it turns data[i] from a Subset object into a list object
             data[i] = select_poisoning(data[i], ctx, mode=MODE.TRAIN)
         data[i] = select_poisoning(data[i], ctx, mode=MODE.TEST)
         if data[i].get(MODE.VAL):
