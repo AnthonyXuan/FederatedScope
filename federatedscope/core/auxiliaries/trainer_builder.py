@@ -226,6 +226,10 @@ def get_trainer(model=None,
         from federatedscope.core.trainers import wrap_FedRepTrainer
         # wrap style: instance a (class A) -> instance a (class A)
         trainer = wrap_FedRepTrainer(trainer)
+    # ! Anthony
+    elif config.federate.method.lower() == "fedunlearn":
+        from federatedscope.core.trainers import wrap_FedUnlearnTrainer
+        trainer = wrap_FedUnlearnTrainer(trainer)
 
     # attacker plug-in
     if 'backdoor' in config.attack.attack_method:

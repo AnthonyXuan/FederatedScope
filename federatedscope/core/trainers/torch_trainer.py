@@ -153,6 +153,7 @@ class GeneralTorchTrainer(Trainer):
         self.register_hook_in_eval(self._hook_on_batch_end, "on_batch_end")
         self.register_hook_in_eval(self._hook_on_fit_end, "on_fit_end")
 
+    # init data parallel for model
     def _hook_on_data_parallel_init(self, ctx):
         """
         Note:
@@ -173,6 +174,7 @@ class GeneralTorchTrainer(Trainer):
                 torch.nn.DataParallel(ctx.model,
                                       device_ids=ctx.cfg.train.data_para_dids)
 
+    # prepare model, optimizer and statistics
     def _hook_on_fit_start_init(self, ctx):
         """
         Note:
@@ -212,6 +214,7 @@ class GeneralTorchTrainer(Trainer):
         ctx.ys_true = CtxVar([], LIFECYCLE.ROUTINE)
         ctx.ys_prob = CtxVar([], LIFECYCLE.ROUTINE)
 
+    # init model size tracker
     def _hook_on_fit_start_calculate_model_size(self, ctx):
         """
         Note:
@@ -232,6 +235,7 @@ class GeneralTorchTrainer(Trainer):
         if ctx.monitor.total_model_size == 0:
             ctx.monitor.track_model_size(ctx.models)
 
+    # prepare the dataloader of current split
     def _hook_on_epoch_start(self, ctx):
         """
         Note:
@@ -255,6 +259,7 @@ class GeneralTorchTrainer(Trainer):
         else:
             ctx.get("{}_loader".format(ctx.cur_split)).reset()
 
+    # prepare the current batch data
     def _hook_on_batch_start_init(self, ctx):
         """
         Note:
@@ -273,6 +278,7 @@ class GeneralTorchTrainer(Trainer):
         except StopIteration:
             raise StopIteration
 
+    # calcualte the forward propagation in current batch
     def _hook_on_batch_forward(self, ctx):
         """
         Note:
@@ -296,6 +302,7 @@ class GeneralTorchTrainer(Trainer):
         ctx.loss_batch = CtxVar(ctx.criterion(pred, label), LIFECYCLE.BATCH)
         ctx.batch_size = CtxVar(len(label), LIFECYCLE.BATCH)
 
+    # ? analyze the flops in this calculation on this batch
     def _hook_on_batch_forward_flop_count(self, ctx):
         """
         The monitoring hook to calculate the flops during the fl course
@@ -350,6 +357,7 @@ class GeneralTorchTrainer(Trainer):
         ctx.monitor.total_flops += ctx.monitor.flops_per_sample * \
             ctx.batch_size
 
+    # ! calculate the loss from regularizer, But this is a dummy for now. regularizer only supports Dummy Type, and regularizer.mu is set default to 0
     def _hook_on_batch_forward_regularizer(self, ctx):
         """
         Note:
@@ -367,6 +375,7 @@ class GeneralTorchTrainer(Trainer):
         ctx.loss_task = CtxVar(ctx.loss_batch + ctx.loss_regular,
                                LIFECYCLE.BATCH)
 
+    # execute backward propagation for current batch
     def _hook_on_batch_backward(self, ctx):
         """
         Note:
@@ -389,6 +398,7 @@ class GeneralTorchTrainer(Trainer):
         if ctx.scheduler is not None:
             ctx.scheduler.step()
 
+    # add the batch loss and batch regularization(demo) loss to the total loss of this epoch
     def _hook_on_batch_end(self, ctx):
         """
         Note:
@@ -411,6 +421,7 @@ class GeneralTorchTrainer(Trainer):
         ctx.ys_true.append(ctx.y_true.detach().cpu().numpy())
         ctx.ys_prob.append(ctx.y_prob.detach().cpu().numpy())
 
+    # calculate the eval metrics for this fit
     def _hook_on_fit_end(self, ctx):
         """
         Evaluate metrics.

@@ -117,7 +117,7 @@ def init_Ditto_ctx(base_trainer):
     else:
         ctx.num_train_epoch += ctx.num_train_epoch_for_local_model
 
-
+# set optimizer for regularized model, i.e. the local model. And set optimizer for global model.
 def _hook_on_fit_start_set_regularized_para(ctx):
     """
     Note:
@@ -155,7 +155,7 @@ def _hook_on_fit_start_set_regularized_para(ctx):
     ctx.optimizer_for_local_model.set_compared_para_group(
         compared_global_model_para)
 
-
+# clean the default optimizer, named 'ctx.optimizer'
 def _hook_on_fit_start_clean(ctx):
     """
     Note:
@@ -171,7 +171,7 @@ def _hook_on_fit_start_clean(ctx):
     del ctx.optimizer
     ctx.num_samples_local_model_train = 0
 
-
+# 
 def _hook_on_fit_end_calibrate(ctx):
     """
     Note:
@@ -192,7 +192,7 @@ def _hook_on_fit_end_calibrate(ctx):
     ctx.eval_metrics['train_total_local_model'] = \
         ctx.num_samples_local_model_train
 
-
+# calculate the the flops during current training batch
 def _hook_on_batch_end_flop_count(ctx):
     """
     Note:
@@ -207,7 +207,7 @@ def _hook_on_batch_end_flop_count(ctx):
     # number of model parameters
     ctx.monitor.total_flops += ctx.monitor.total_model_size / 2
 
-
+# count the number of samples in the whole local model trainning process
 def _hook_on_batch_forward_cnt_num(ctx):
     """
     Note:
@@ -221,7 +221,7 @@ def _hook_on_batch_forward_cnt_num(ctx):
     if ctx.use_local_model_current:
         ctx.num_samples_local_model_train += ctx.batch_size
 
-
+# swtich the model(between global and local model) and the optimizer for training
 def _hook_on_batch_start_switch_model(ctx):
     """
     Note:
@@ -260,6 +260,7 @@ def _hook_on_batch_start_switch_model(ctx):
                     f"{ctx.num_train_epoch_for_local_model}")
         logger.info(f"use_local_model: {ctx.use_local_model_current}")
 
+    # switch model to change ctx that used in default hooks
     if ctx.use_local_model_current:
         ctx.model = ctx.local_model
         ctx.optimizer = ctx.optimizer_for_local_model
@@ -274,7 +275,7 @@ def _hook_on_batch_start_switch_model(ctx):
 # def hook_on_fit_end_link_global_model(ctx):
 #     ctx.model = ctx.global_model
 
-
+# use local_model before each fitting
 def _hook_on_fit_start_switch_local_model(ctx):
     """
     Note:
@@ -289,7 +290,7 @@ def _hook_on_fit_start_switch_local_model(ctx):
     ctx.model = ctx.local_model
     ctx.model.eval()
 
-
+# use global_model after each fitting
 def _hook_on_fit_end_switch_global_model(ctx):
     """
     Note:

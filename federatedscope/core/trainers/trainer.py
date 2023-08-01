@@ -112,6 +112,7 @@ class Trainer(BaseTrainer):
     def register_default_hooks_ft(self):
         pass
 
+    # ! call _reset_hook_in_trigger() to implement a deletion of a hook in train
     def reset_hook_in_train(self, target_trigger, target_hook_name=None):
         hooks_dict = self.hooks_in_train
         del_one_hook_idx = self._reset_hook_in_trigger(hooks_dict,
@@ -141,6 +142,7 @@ class Trainer(BaseTrainer):
                                    trigger=target_trigger,
                                    insert_pos=del_one_hook_idx)
 
+    # ! Could be helpful when I want to implemnt my unlearning scheme
     def _reset_hook_in_trigger(self, hooks_dict, target_hook_name,
                                target_trigger):
         # clean/delete existing hooks for a specific trigger,

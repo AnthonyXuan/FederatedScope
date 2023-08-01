@@ -355,6 +355,7 @@ def poisoning(data, ctx):
         data[i] = select_poisoning(data[i], ctx, mode=MODE.TEST)
         if data[i].get(MODE.VAL):
             data[i] = select_poisoning(data[i], ctx, mode=MODE.VAL)
-        data[i] = add_trans_normalize(data[i], ctx)
+        # ! add_trans_normalize() make clean acc unbelievably low
+        # data[i] = add_trans_normalize(data[i], ctx)
         logger.info('finishing the clean and {} poisoning data processing \
                 for Client {:d}'.format(ctx.attack.trigger_type, i))
