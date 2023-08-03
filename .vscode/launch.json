@@ -14,11 +14,11 @@
             "justMyCode": true
         },
         {
-            "name": "run naive ditto",
+            "name": "run simple ditto",
             "type": "python",
             "request": "launch",
             "program": "./federatedscope/main.py",
-            "args": ["--cfg", "./new-scripts-high-attack/naive_ditto.yaml", "outdir", "garbage_can/"], 
+            "args": ["--cfg", "./debug-scripts/naive_ditto.yaml", "outdir", "garbage_can/"], 
             "console": "integratedTerminal",
             "justMyCode": true
         }
