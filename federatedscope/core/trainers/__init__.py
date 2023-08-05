@@ -14,11 +14,12 @@ from federatedscope.core.trainers.context import Context
 from federatedscope.core.trainers.trainer_fedprox import wrap_fedprox_trainer
 from federatedscope.core.trainers.trainer_nbafl import wrap_nbafl_trainer, \
     wrap_nbafl_server
+from federatedscope.core.trainers.trainer_FedUnlearn import wrap_FedUnlearnTrainer
 
 __all__ = [
     'Trainer', 'Context', 'GeneralTorchTrainer', 'GeneralMultiModelTrainer',
     'wrap_pFedMeTrainer', 'wrap_DittoTrainer', 'FedEMTrainer',
     'wrap_fedprox_trainer', 'wrap_nbafl_trainer', 'wrap_nbafl_server',
     'wrap_Simple_tuning_Trainer', 'wrap_FedRepTrainer', 'BaseTrainer',
-    'GeneralTFTrainer'
+    'GeneralTFTrainer', 'wrap_FedUnlearnTrainer'
 ]

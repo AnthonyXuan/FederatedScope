@@ -5,6 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "run fedunlearn",
+            "type": "python",
+            "request": "launch",
+            "program": "./federatedscope/main.py",
+            "args": ["--cfg", "./debug-scripts/naive_fedunlearn.yaml"], 
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "run naive fedavg",
             "type": "python",
             "request": "launch",

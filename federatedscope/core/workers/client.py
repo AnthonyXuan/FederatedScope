@@ -342,6 +342,10 @@ class Client(BaseClient):
                         f"early stopped. "
                         f"The next FL update may result in negative effect")
                     self._monitor.local_converged()
+                    
+                # ! Anthony
+                # ! Add state (i.e., current communication rounds) to the context of trainer
+                self.trainer.ctx.world_state = self.state
                 sample_size, model_para_all, results = self.trainer.train()
                 if self._cfg.federate.share_local_model and not \
                         self._cfg.federate.online_aggr:
@@ -436,6 +440,10 @@ class Client(BaseClient):
                                 init_timestamp=timestamp,
                                 instance_number=sample_size),
                             content=(sample_size, shared_model_para)))
+
+    # # ! Anthony
+    # # ! Add callback function for receiving state (current communication rounds) from server
+    # def callback_funcs_for_
 
     def callback_funcs_for_assign_id(self, message: Message):
         """
