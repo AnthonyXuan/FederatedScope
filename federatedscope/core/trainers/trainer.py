@@ -142,6 +142,7 @@ class Trainer(BaseTrainer):
                                    trigger=target_trigger,
                                    insert_pos=del_one_hook_idx)
 
+    # ! Anthony
     # ! Could be helpful when I want to implemnt my unlearning scheme
     def _reset_hook_in_trigger(self, hooks_dict, target_hook_name,
                                target_trigger):

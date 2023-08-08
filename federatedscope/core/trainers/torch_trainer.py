@@ -279,6 +279,7 @@ class GeneralTorchTrainer(Trainer):
             raise StopIteration
 
     # calcualte the forward propagation in current batch
+    # ! need to change the loss_batch here to suite my scheme
     def _hook_on_batch_forward(self, ctx):
         """
         Note:

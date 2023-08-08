@@ -1,22 +1,39 @@
 # 需要在criterion层面，对不同样本进行区分
 # 需要增加一（两）个context变量，存放后门样本和干净样本
 # 根据通信轮数进行方案两个阶段的区别
-
+# TODO: 使用context来编写trainer的hooks函数
 import copy
 import logging
-
 import torch
+from federatedscope.core.trainers.context import CtxVar
+from federatedscope.core.trainers.enums import MODE, LIFECYCLE
+from federatedscope.core.auxiliaries.dataloader_builder import get_dataloader
+from federatedscope.core.auxiliaries.ReIterator import ReIterator
 
 from federatedscope.core.auxiliaries.optimizer_builder import get_optimizer
 from federatedscope.core.trainers.torch_trainer import GeneralTorchTrainer
 from federatedscope.core.optimizer import wrap_regularized_optimizer
 from federatedscope.core.trainers.utils import calculate_batch_epoch_num
+from federatedscope.core.data.wrap_dataset import WrapDataset
 from typing import Type
+
 
 logger = logging.getLogger(__name__)
 
 def wrap_FedUnlearnTrainer(base_trainer: Type[GeneralTorchTrainer]) -> Type[GeneralTorchTrainer]:
     init_FedUnlearn_ctx(base_trainer)
+
+    # HOOK_TRIGGER = [
+    #     "on_fit_start", "on_epoch_start", "on_batch_start", "on_batch_forward",
+    #     "on_batch_backward", "on_batch_end", "on_epoch_end", "on_fit_end"
+    # ]
+    
+    # ! replace the hook '_hook_on_batch_forward' with '_hook_on_batch_forward_fedunlearn'
+    base_trainer.replace_hook_in_train(new_hook=_hook_on_batch_forward_fedunlearn, target_trigger="on_batch_forward", target_hook_name='_hook_on_batch_forward')
+    base_trainer.replace_hook_in_train(new_hook=_hook_on_epoch_start_fedunlearn, target_trigger="on_epoch_start", target_hook_name='_hook_on_epoch_start')
+    base_trainer.replace_hook_in_train(new_hook=_hook_on_batch_start_init_fedunlearn, target_trigger="on_batch_start", target_hook_name='_hook_on_batch_start_init')
+
+
 
     base_trainer.register_hook_in_train(new_hook=_hook_on_fit_start_clean,
                                         trigger='on_fit_start',
@@ -58,6 +75,131 @@ def wrap_FedUnlearnTrainer(base_trainer: Type[GeneralTorchTrainer]) -> Type[Gene
 
     return base_trainer
     
+# prepare the dataloader of current split
+def _hook_on_epoch_start_fedunlearn(ctx):
+    """
+    Note:
+        The modified attributes and according operations are shown below:
+        ==================================  ===========================
+        Attribute                           Operation
+        ==================================  ===========================
+        ``ctx.{ctx.cur_split}_loader``      Initialize DataLoader
+        ==================================  ===========================
+    """
+    # ! It seems I only register hooks in train, so "ctx.cur_split == 'train' " may be duplicated
+    if ctx.cur_split == 'train' and ctx.world_state >= ctx.switch_rounds:
+        benign_loader = get_dataloader(
+            WrapDataset(ctx.get("benign_data")), ctx.cfg, 'train')
+        setattr(ctx, "benign_loader", ReIterator(benign_loader))
+        backdoor_loader = get_dataloader(
+            WrapDataset(ctx.get("backdoor_data")), ctx.cfg, 'train')
+        setattr(ctx, "backdoor_data", ReIterator(backdoor_loader))
+    else:
+        # prepare dataloader
+        if ctx.get("{}_loader".format(ctx.cur_split)) is None:
+            loader = get_dataloader(
+                WrapDataset(ctx.get("{}_data".format(ctx.cur_split))),
+                ctx.cfg, ctx.cur_split)
+            setattr(ctx, "{}_loader".format(ctx.cur_split), ReIterator(loader))
+        elif not isinstance(ctx.get("{}_loader".format(ctx.cur_split)),
+                            ReIterator):
+            setattr(ctx, "{}_loader".format(ctx.cur_split),
+                    ReIterator(ctx.get("{}_loader".format(ctx.cur_split))))
+        else:
+            ctx.get("{}_loader".format(ctx.cur_split)).reset()
+
+# prepare the current batch data
+def _hook_on_batch_start_init_fedunlearn(ctx):
+    """
+    Note:
+        The modified attributes and according operations are shown below:
+        ==================================  ===========================
+        Attribute                           Operation
+        ==================================  ===========================
+        ``ctx.data_batch``                  Initialize batch data
+        ==================================  ===========================
+    """
+    if ctx.world_state >= ctx.switch_rounds:
+        # prepare data batch
+        try:
+            ctx.benign_data_batch = CtxVar(
+                next(ctx.get("benign_loader")),
+                LIFECYCLE.BATCH)
+        except StopIteration:
+            raise StopIteration
+        
+        try:
+            ctx.backdoor_data_batch = CtxVar(
+                next(ctx.get("backdoor_loader")),
+                LIFECYCLE.BATCH)
+        except StopIteration:
+            raise StopIteration
+    else:
+        # prepare data batch
+        try:
+            ctx.data_batch = CtxVar(
+                next(ctx.get("{}_loader".format(ctx.cur_split))),
+                LIFECYCLE.BATCH)
+        except StopIteration:
+            raise StopIteration
+    
+    
+def _hook_on_batch_forward_fedunlearn(ctx):
+    """
+    Note:
+        The modified attributes and according operations are shown below:
+        ==================================  ===========================
+        Attribute                           Operation
+        ==================================  ===========================
+        ``ctx.y_true``                      Move to `ctx.device`
+        ``ctx.y_prob``                      Forward propagation get y_prob
+        ``ctx.loss_batch``                  Calculate the loss
+        ``ctx.batch_size``                  Get the batch_size
+        ==================================  ===========================
+    """
+    if ctx.world_state >= ctx.switch_rounds:
+        
+        x, label_benign = [_.to(ctx.device) for _ in ctx.benign_data_batch]
+        pred_benign = ctx.model(x)
+        if len(label_benign.size()) == 0:
+            label_benign = label_benign.unsqueeze(0)
+
+        x, label_backdoor = [_.to(ctx.device) for _ in ctx.backdoor_data_batch]
+        pred_backdoor = ctx.model(x)
+        if len(label_backdoor.size()) == 0:
+            label_backdoor = label_backdoor.unsqueeze(0)
+
+        pred = torch.cat(pred_benign, pred_backdoor)
+        label = torch.cat(label_benign, label_backdoor)
+    
+        ctx.y_true = CtxVar(label, LIFECYCLE.BATCH)
+        ctx.y_prob = CtxVar(pred, LIFECYCLE.BATCH)
+        # treat benign and backdoor data differently
+        ctx.loss_batch = CtxVar(ctx.criterion(pred_benign, label_benign) - ctx.criterion(pred_backdoor, label_backdoor), LIFECYCLE.BATCH)
+        ctx.batch_size = CtxVar(len(label), LIFECYCLE.BATCH)
+    # TODO: 最后一个round，划分benign和backdoor数据集
+    # TODO： 需要解决问题： 如何通过ctx变量定位当前epoch，batch和全部所需epoch，batch
+    else:
+        x, label = [_.to(ctx.device) for _ in ctx.data_batch]
+        pred = ctx.model(x)
+        if len(label.size()) == 0:
+            label = label.unsqueeze(0)
+
+        ctx.y_true = CtxVar(label, LIFECYCLE.BATCH)
+        ctx.y_prob = CtxVar(pred, LIFECYCLE.BATCH)
+        
+        default_reduction = getattr(ctx.criterion, 'reduction')
+        setattr(ctx.criterion, 'reduction', 'none')
+        loss_per_sample = ctx.criterion(pred, label)
+        setattr(ctx.criterion, 'reduction', default_reduction)
+        
+        loss_batch_value = torch.sum(
+            torch.sign(loss_per_sample - ctx.loss_thresh) * loss_per_sample
+        ) 
+        
+        ctx.loss_batch = CtxVar(loss_batch_value, LIFECYCLE.BATCH)
+        ctx.batch_size = CtxVar(len(label), LIFECYCLE.BATCH)
+    
 def init_FedUnlearn_ctx(base_trainer):
     """
     init necessary attributes used in FedUnlearn,
@@ -71,11 +213,16 @@ def init_FedUnlearn_ctx(base_trainer):
     ctx = base_trainer.ctx
     cfg = base_trainer.cfg
     
+    # used in WrapDataset()
+    ctx.cfg = cfg
     ctx.global_model = copy.deepcopy(ctx.model)
     ctx.local_model = copy.deepcopy(ctx.model)
     ctx.loss_thresh = cfg.fedunlearn.loss_thresh
     ctx.trap_rate = cfg.fedunlearn.trap_rate
     ctx.switch_rounds = cfg.fedunlearn.switch_rounds
+    
+    ctx.benign_data = None
+    ctx.backdoor_data = None
     
     ctx.models = [ctx.local_model, ctx.global_model]
     
