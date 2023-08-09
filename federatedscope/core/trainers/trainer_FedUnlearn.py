@@ -34,7 +34,7 @@ def wrap_FedUnlearnTrainer(base_trainer: Type[GeneralTorchTrainer]) -> Type[Gene
     base_trainer.replace_hook_in_train(new_hook=_hook_on_batch_forward_fedunlearn, target_trigger="on_batch_forward", target_hook_name='_hook_on_batch_forward')
     base_trainer.replace_hook_in_train(new_hook=_hook_on_epoch_start_fedunlearn, target_trigger="on_epoch_start", target_hook_name='_hook_on_epoch_start')
     base_trainer.replace_hook_in_train(new_hook=_hook_on_batch_start_init_fedunlearn, target_trigger="on_batch_start", target_hook_name='_hook_on_batch_start_init')
-
+    base_trainer.replace_hook_in_train(new_hook=_hook_on_fit_end_fedunlearn, target_trigger="on_fit_end", target_hook_name='_hook_on_fit_end')
 
 
     base_trainer.register_hook_in_train(new_hook=_hook_on_fit_start_clean,
@@ -89,13 +89,18 @@ def _hook_on_epoch_start_fedunlearn(ctx):
         ==================================  ===========================
     """
     # ! Since I only register hooks in train, "ctx.cur_split == 'train' " may be unnecessary.
+    # ! Anthony mark
+    # ! I didn't use wrapDataset here
     if ctx.world_state > ctx.switch_rounds:
         benign_loader = get_dataloader(
-            WrapDataset(ctx.get("benign_data")), ctx.cfg, 'train')
+            ctx.get("benign_data"), ctx.cfg, 'train')
         setattr(ctx, "benign_loader", ReIterator(benign_loader))
-        backdoor_loader = get_dataloader(
-            WrapDataset(ctx.get("backdoor_data")), ctx.cfg, 'train')
-        setattr(ctx, "backdoor_loader", ReIterator(backdoor_loader))
+        if len(ctx.get("backdoor_data")) != 0:
+            backdoor_loader = get_dataloader(
+                ctx.get("backdoor_data"), ctx.cfg, 'train')
+            setattr(ctx, "backdoor_loader", ReIterator(backdoor_loader))
+        else:
+            setattr(ctx, "backdoor_loader", None)
     else:
         # prepare dataloader
         if ctx.get("{}_loader".format(ctx.cur_split)) is None:
@@ -130,12 +135,16 @@ def _hook_on_batch_start_init_fedunlearn(ctx):
         except StopIteration:
             raise StopIteration
         
-        try:
-            ctx.backdoor_data_batch = CtxVar(
-                next(ctx.get("backdoor_loader")),
-                LIFECYCLE.BATCH)
-        except StopIteration:
-            raise StopIteration
+        if ctx.get("backdoor_loader") != None:
+            try:
+                ctx.backdoor_data_batch = CtxVar(
+                    next(ctx.get("backdoor_loader")),
+                    LIFECYCLE.BATCH)
+            except StopIteration:
+                raise StopIteration
+        else:
+            ctx.backdoor_data_batch = None
+            
     else:
         # prepare data batch
         try:
@@ -160,27 +169,40 @@ def _hook_on_batch_forward_fedunlearn(ctx):
         ==================================  ===========================
     """
     if ctx.world_state > ctx.switch_rounds:
+        if ctx.backdoor_data_batch != None:
+            x, label_benign = [_.to(ctx.device) for _ in ctx.benign_data_batch]
+            pred_benign = ctx.model(x)
+            if len(label_benign.size()) == 0:
+                label_benign = label_benign.unsqueeze(0)
+
+            x, label_backdoor = [_.to(ctx.device) for _ in ctx.backdoor_data_batch]
+            pred_backdoor = ctx.model(x)
+            if len(label_backdoor.size()) == 0:
+                label_backdoor = label_backdoor.unsqueeze(0)
+
+            pred = torch.cat((pred_benign, pred_backdoor))
+            label = torch.cat((label_benign, label_backdoor))
         
-        x, label_benign = [_.to(ctx.device) for _ in ctx.benign_data_batch]
-        pred_benign = ctx.model(x)
-        if len(label_benign.size()) == 0:
-            label_benign = label_benign.unsqueeze(0)
+            ctx.y_true = CtxVar(label, LIFECYCLE.BATCH)
+            ctx.y_prob = CtxVar(pred, LIFECYCLE.BATCH)
+            # treat benign and backdoor data differently
+            ctx.loss_batch = CtxVar(ctx.criterion(pred_benign, label_benign) - ctx.criterion(pred_backdoor, label_backdoor), LIFECYCLE.BATCH)
+            ctx.batch_size = CtxVar(len(label), LIFECYCLE.BATCH)
+        else:
+            x, label_benign = [_.to(ctx.device) for _ in ctx.benign_data_batch]
+            pred_benign = ctx.model(x)
+            if len(label_benign.size()) == 0:
+                label_benign = label_benign.unsqueeze(0)
 
-        x, label_backdoor = [_.to(ctx.device) for _ in ctx.backdoor_data_batch]
-        pred_backdoor = ctx.model(x)
-        if len(label_backdoor.size()) == 0:
-            label_backdoor = label_backdoor.unsqueeze(0)
+            pred = pred_benign
+            label = label_benign
+        
+            ctx.y_true = CtxVar(label, LIFECYCLE.BATCH)
+            ctx.y_prob = CtxVar(pred, LIFECYCLE.BATCH)
 
-        pred = torch.cat((pred_benign, pred_backdoor))
-        label = torch.cat((label_benign, label_backdoor))
-    
-        ctx.y_true = CtxVar(label, LIFECYCLE.BATCH)
-        ctx.y_prob = CtxVar(pred, LIFECYCLE.BATCH)
-        # treat benign and backdoor data differently
-        ctx.loss_batch = CtxVar(ctx.criterion(pred_benign, label_benign) - ctx.criterion(pred_backdoor, label_backdoor), LIFECYCLE.BATCH)
-        ctx.batch_size = CtxVar(len(label), LIFECYCLE.BATCH)
-    # TODO: 最后一个round，划分benign和backdoor数据集
-    # TODO： 需要解决问题： 如何通过ctx变量定位当前epoch，batch和全部所需epoch，batch
+            ctx.loss_batch = CtxVar(ctx.criterion(pred_benign, label_benign), LIFECYCLE.BATCH)
+            ctx.batch_size = CtxVar(len(label), LIFECYCLE.BATCH)
+
     else:
         x, label = [_.to(ctx.device) for _ in ctx.data_batch]
         pred = ctx.model(x)
@@ -225,9 +247,9 @@ def _hook_on_fit_end_fedunlearn(ctx):
         # change reduction parameters to none reduction
         setattr(ctx.criterion, 'reduction', 'none')
         # create data_loader for train data
-        data_loader= DataLoader(WrapDataset(ctx.train_data), batch_size=ctx.dataloader.batch_size, shuffle=False, num_workers=ctx.dataloader.num_workers)
+        data_loader= DataLoader(ctx.data.train_data, batch_size=ctx.cfg.dataloader.batch_size, shuffle=False, num_workers=ctx.cfg.dataloader.num_workers)
         # init loss_all_sample
-        loss_all_sample = torch.empty(0)
+        loss_all_sample = torch.empty(0).to(ctx.device)
         for batch_data, batch_label in data_loader:
             batch_data = batch_data.to(ctx.device)
             batch_label = batch_label.to(ctx.device)
@@ -240,7 +262,7 @@ def _hook_on_fit_end_fedunlearn(ctx):
         # restore default reduction parameters
         setattr(ctx.criterion, 'reduction', default_reduction)
         # judge which samples should be classified as backdoored
-        top_k = round(ctx.trap_rate * len(ctx.train_data))
+        top_k = round(ctx.trap_rate * len(ctx.data.train_data))
         topk_val, topk_indx = torch.topk(loss_all_sample, top_k, largest=False, sorted=True)
         topk_indx_final = []
         topk_flag = topk_val < ctx.loss_thresh
@@ -248,10 +270,13 @@ def _hook_on_fit_end_fedunlearn(ctx):
             if flag:
                 topk_indx_final.append(topk_indx[i])
         
-        benign_data = ctx.train_data[topk_indx_final]
-        mask = torch.ones_like(ctx.train_data, dtype=torch.bool)
+        train_data = [item for item in ctx.data.train_data]
+        backdoor_data = [train_data[indx] for indx in topk_indx_final]
+        mask = torch.ones([len(train_data)], dtype=torch.bool)
+        # mask = torch.ones_like(train_data, dtype=torch.bool)
         mask[topk_indx_final] = False
-        backdoor_data = ctx.train_data[mask]
+        
+        benign_data = [train_data[i] for i, flag in enumerate(mask) if flag]
         
         setattr(ctx, 'benign_data', benign_data)
         setattr(ctx, 'backdoor_data', backdoor_data)
@@ -283,8 +308,10 @@ def init_FedUnlearn_ctx(base_trainer):
     ctx.trap_rate = cfg.fedunlearn.trap_rate
     ctx.switch_rounds = cfg.fedunlearn.switch_rounds
     
-    ctx.benign_data = None
-    ctx.backdoor_data = None
+    # ! Very important for federated learning, because most clients won't get involved in stage 1
+    # default benign data and backdoor data
+    ctx.benign_data = [item for item in ctx.data.train_data]
+    ctx.backdoor_data = []
     
     ctx.models = [ctx.local_model, ctx.global_model]
     

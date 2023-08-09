@@ -18,7 +18,7 @@
             "type": "python",
             "request": "launch",
             "program": "./federatedscope/main.py",
-            "args": ["--cfg", "./new-scripts/naive_fedavg.yaml"],
+            "args": ["--cfg", "./debug-scripts/naive_fedavg.yaml"],
             "console": "integratedTerminal",
             "justMyCode": true
         },
