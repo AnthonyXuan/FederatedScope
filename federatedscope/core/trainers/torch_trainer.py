@@ -302,6 +302,10 @@ class GeneralTorchTrainer(Trainer):
         ctx.y_prob = CtxVar(pred, LIFECYCLE.BATCH)
         ctx.loss_batch = CtxVar(ctx.criterion(pred, label), LIFECYCLE.BATCH)
         ctx.batch_size = CtxVar(len(label), LIFECYCLE.BATCH)
+        
+        if ctx.cur_batch_i == ctx.num_train_batch - 1:
+            a = 1
+            
 
     # ? analyze the flops in this calculation on this batch
     def _hook_on_batch_forward_flop_count(self, ctx):

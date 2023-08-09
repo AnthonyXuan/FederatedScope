@@ -1,10 +1,11 @@
 # 需要在criterion层面，对不同样本进行区分
 # 需要增加一（两）个context变量，存放后门样本和干净样本
 # 根据通信轮数进行方案两个阶段的区别
-# TODO: 使用context来编写trainer的hooks函数
+
 import copy
 import logging
 import torch
+import numpy as np
 from federatedscope.core.trainers.context import CtxVar
 from federatedscope.core.trainers.enums import MODE, LIFECYCLE
 from federatedscope.core.auxiliaries.dataloader_builder import get_dataloader
@@ -16,6 +17,7 @@ from federatedscope.core.optimizer import wrap_regularized_optimizer
 from federatedscope.core.trainers.utils import calculate_batch_epoch_num
 from federatedscope.core.data.wrap_dataset import WrapDataset
 from typing import Type
+from torch.utils.data import DataLoader
 
 
 logger = logging.getLogger(__name__)
@@ -86,14 +88,14 @@ def _hook_on_epoch_start_fedunlearn(ctx):
         ``ctx.{ctx.cur_split}_loader``      Initialize DataLoader
         ==================================  ===========================
     """
-    # ! It seems I only register hooks in train, so "ctx.cur_split == 'train' " may be duplicated
-    if ctx.cur_split == 'train' and ctx.world_state >= ctx.switch_rounds:
+    # ! Since I only register hooks in train, "ctx.cur_split == 'train' " may be unnecessary.
+    if ctx.world_state > ctx.switch_rounds:
         benign_loader = get_dataloader(
             WrapDataset(ctx.get("benign_data")), ctx.cfg, 'train')
         setattr(ctx, "benign_loader", ReIterator(benign_loader))
         backdoor_loader = get_dataloader(
             WrapDataset(ctx.get("backdoor_data")), ctx.cfg, 'train')
-        setattr(ctx, "backdoor_data", ReIterator(backdoor_loader))
+        setattr(ctx, "backdoor_loader", ReIterator(backdoor_loader))
     else:
         # prepare dataloader
         if ctx.get("{}_loader".format(ctx.cur_split)) is None:
@@ -119,7 +121,7 @@ def _hook_on_batch_start_init_fedunlearn(ctx):
         ``ctx.data_batch``                  Initialize batch data
         ==================================  ===========================
     """
-    if ctx.world_state >= ctx.switch_rounds:
+    if ctx.world_state > ctx.switch_rounds:
         # prepare data batch
         try:
             ctx.benign_data_batch = CtxVar(
@@ -157,7 +159,7 @@ def _hook_on_batch_forward_fedunlearn(ctx):
         ``ctx.batch_size``                  Get the batch_size
         ==================================  ===========================
     """
-    if ctx.world_state >= ctx.switch_rounds:
+    if ctx.world_state > ctx.switch_rounds:
         
         x, label_benign = [_.to(ctx.device) for _ in ctx.benign_data_batch]
         pred_benign = ctx.model(x)
@@ -169,8 +171,8 @@ def _hook_on_batch_forward_fedunlearn(ctx):
         if len(label_backdoor.size()) == 0:
             label_backdoor = label_backdoor.unsqueeze(0)
 
-        pred = torch.cat(pred_benign, pred_backdoor)
-        label = torch.cat(label_benign, label_backdoor)
+        pred = torch.cat((pred_benign, pred_backdoor))
+        label = torch.cat((label_benign, label_backdoor))
     
         ctx.y_true = CtxVar(label, LIFECYCLE.BATCH)
         ctx.y_prob = CtxVar(pred, LIFECYCLE.BATCH)
@@ -199,6 +201,55 @@ def _hook_on_batch_forward_fedunlearn(ctx):
         
         ctx.loss_batch = CtxVar(loss_batch_value, LIFECYCLE.BATCH)
         ctx.batch_size = CtxVar(len(label), LIFECYCLE.BATCH)
+    
+# ! modify this function to classify benign data and backdoor data
+def _hook_on_fit_end_fedunlearn(ctx):
+    """
+    Evaluate metrics.
+
+    Note:
+        The modified attributes and according operations are shown below:
+        ==================================  ===========================
+        Attribute                           Operation
+        ==================================  ===========================
+        ``ctx.ys_true``                     Convert to ``numpy.array``
+        ``ctx.ys_prob``                     Convert to ``numpy.array``
+        ``ctx.monitor``                     Evaluate the results
+        ``ctx.eval_metrics``                Get evaluated results from \
+        ``ctx.monitor``
+        ==================================  ===========================
+    """
+    if ctx.world_state == ctx.switch_rounds:
+        # save default reduction parameters
+        default_reduction = getattr(ctx.criterion, 'reduction')
+        # change reduction parameters to none reduction
+        setattr(ctx.criterion, 'reduction', 'none')
+        # create data_loader for train data
+        data_loader= DataLoader(WrapDataset(ctx.train_data), batch_size=ctx.dataloader.batch_size, shuffle=False, num_workers=ctx.dataloader.num_workers)
+        # init loss_all_sample
+        loss_all_sample = torch.empty(0)
+        for batch_data, batch_label in data_loader:
+            batch_data = batch_data.to(ctx.device)
+            batch_label = batch_label.to(ctx.device)
+            
+            batch_pred = ctx.model(batch_data)
+            loss_per_sample = ctx.criterion(batch_pred, batch_label)
+            
+            loss_all_sample = torch.cat((loss_all_sample, loss_per_sample))
+            
+        # restore default reduction parameters
+        setattr(ctx.criterion, 'reduction', default_reduction)
+        # judge which samples should be classified as backdoored
+        
+        
+        loss_batch_value = torch.sum(
+            torch.sign(loss_per_sample - ctx.loss_thresh) * loss_per_sample
+        ) 
+
+    ctx.ys_true = CtxVar(np.concatenate(ctx.ys_true), LIFECYCLE.ROUTINE)
+    ctx.ys_prob = CtxVar(np.concatenate(ctx.ys_prob), LIFECYCLE.ROUTINE)
+    results = ctx.monitor.eval(ctx)
+    setattr(ctx, 'eval_metrics', results)
     
 def init_FedUnlearn_ctx(base_trainer):
     """
