@@ -109,6 +109,21 @@ class Attack():
                 "std": [0.2470, 0.2435, 0.2616]
             }
 
+class FedUnlearnConfig(BaseConfig, Attack):
+    def __init__(self, attack_type):
+        BaseConfig.__init__(self)
+        Attack.__init__(self, attack_type=attack_type)
+        self.federate["method"] = "FedUnlearn"
+        self.train["optimizer"]["lr"] = 0.1
+        self.train["local_update_steps"] = 2
+        self.expname_tag =  attack_type +  '_fedunlearn'
+        self.device = 0
+        self.fedunlearn = {
+            'loss_thresh': 0.5,
+            'trap_rate': 0.05,
+            'switch_rounds': 10
+        }
+
 class DittoConfig(BaseConfig, Attack):
     def __init__(self, attack_type):
         BaseConfig.__init__(self)
@@ -133,15 +148,17 @@ def write_config_to_yaml(config, filename):
     with open(filename, 'w') as f:
         yaml.dump(vars(config), f, default_flow_style=None)
 
-naive_ditto = DittoConfig(attack_type='naive')
-badnet_ditto = DittoConfig(attack_type='badnet')
-narci_ditto = DittoConfig(attack_type='narci')
+cfgs = []
 
-naive_fedavg = FedAvgConfig(attack_type='naive')
-badnet_fedavg = FedAvgConfig(attack_type='badnet')
-narci_fedavg = FedAvgConfig(attack_type='narci')
+attack_types = ['naive', 'badnet', 'narci']
+ditto_config = DittoConfig
+fedavg_config = FedAvgConfig
+fedunlearn_config = FedUnlearnConfig
 
-cfgs = [naive_ditto, badnet_ditto, narci_ditto, naive_fedavg, badnet_fedavg, narci_fedavg]
+for attack_type in attack_types:
+    cfgs.append(ditto_config(attack_type=attack_type))
+    cfgs.append(fedavg_config(attack_type=attack_type))
+    cfgs.append(fedunlearn_config(attack_type=attack_type))
 
 for cfg in cfgs:
     write_config_to_yaml(cfg, os.path.join(base_folder, cfg.expname_tag + '.yaml'))

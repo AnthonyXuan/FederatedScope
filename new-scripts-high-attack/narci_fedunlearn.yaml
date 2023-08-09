@@ -1,14 +1,15 @@
 attack:
   attack_method: backdoor
-  attacker_id: 1
-  freq: 100
-  label_type: dirty
+  attacker_id: 4
+  freq: 3
+  label_type: clean
   mean: [0.4914, 0.4822, 0.4465]
-  poison_ratio: 1.0e-05
+  poison_ratio: 0.05
   setting: fix
   std: [0.247, 0.2435, 0.2616]
-  target_label_ind: 7
-  trigger_type: squareTrigger
+  target_label_ind: 2
+  trigger_path: my_trigger/
+  trigger_type: signalTrigger
 criterion: {type: CrossEntropyLoss}
 data:
   args:
@@ -31,19 +32,20 @@ data:
       std: [0.247, 0.2435, 0.2616]
   type: CIFAR10@torchvision
 dataloader: {batch_size: 64}
-device: 1
+device: 0
 early_stop: {patience: 0}
 eval:
   best_res_update_round_wise_key: test_loss
   freq: 1
   metrics: [acc, correct]
   split: [test, val]
-expname_tag: naive_fedunlearn
-federate: {client_num: 5, make_global_eval: false, merge_test_data: false, method: FedUnlearn,
-  mode: standalone, sample_client_rate: 0.2, total_round_num: 10}
+expname_tag: narci_fedunlearn
+federate: {client_num: 100, make_global_eval: false, merge_test_data: false, method: FedUnlearn,
+  mode: standalone, sample_client_rate: 0.1, total_round_num: 500}
+fedunlearn: {loss_thresh: 0.5, switch_rounds: 10, trap_rate: 0.05}
 grad: {grad_clip: 5.0}
 model: {dropout: 0.0, hidden: 2048, out_channels: 10, type: convnet2}
-outdir: garbage_can/
+outdir: new-output/
 seed: 12345
 train:
   batch_or_epoch: epoch
@@ -52,8 +54,3 @@ train:
 trainer: {type: cvtrainer}
 use_gpu: true
 verbose: 1
-
-fedunlearn:
-  loss_thresh: 0.5
-  trap_rate: 0.05
-  switch_rounds: 10
