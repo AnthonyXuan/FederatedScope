@@ -240,11 +240,22 @@ def _hook_on_fit_end_fedunlearn(ctx):
         # restore default reduction parameters
         setattr(ctx.criterion, 'reduction', default_reduction)
         # judge which samples should be classified as backdoored
+        top_k = round(ctx.trap_rate * len(ctx.train_data))
+        topk_val, topk_indx = torch.topk(loss_all_sample, top_k, largest=False, sorted=True)
+        topk_indx_final = []
+        topk_flag = topk_val < ctx.loss_thresh
+        for i, flag in enumerate(topk_flag):
+            if flag:
+                topk_indx_final.append(topk_indx[i])
         
+        benign_data = ctx.train_data[topk_indx_final]
+        mask = torch.ones_like(ctx.train_data, dtype=torch.bool)
+        mask[topk_indx_final] = False
+        backdoor_data = ctx.train_data[mask]
         
-        loss_batch_value = torch.sum(
-            torch.sign(loss_per_sample - ctx.loss_thresh) * loss_per_sample
-        ) 
+        setattr(ctx, 'benign_data', benign_data)
+        setattr(ctx, 'backdoor_data', backdoor_data)
+        
 
     ctx.ys_true = CtxVar(np.concatenate(ctx.ys_true), LIFECYCLE.ROUTINE)
     ctx.ys_prob = CtxVar(np.concatenate(ctx.ys_prob), LIFECYCLE.ROUTINE)
