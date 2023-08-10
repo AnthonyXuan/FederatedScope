@@ -213,6 +213,11 @@ class Client(Worker):
                 )
                 self._monitor.local_converged()
             else:
+                
+                # ! Anthony
+                # ! Add state (i.e., current communication rounds) to the context of trainer
+                self.trainer.ctx.world_state = self.state
+                
                 sample_size, model_para_all, results = self.trainer.train()
                 logger.info(
                     self._monitor.format_eval_res(results,

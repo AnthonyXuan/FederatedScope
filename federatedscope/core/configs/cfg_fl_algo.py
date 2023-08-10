@@ -75,6 +75,13 @@ def extend_fl_algo_cfg(cfg):
     cfg.gcflplus.seq_length = 5
     cfg.gcflplus.standardize = False
 
+    # ! Anthony
+    cfg.fedunlearn = CN()
+    cfg.fedunlearn.loss_thresh = 0.2
+    cfg.fedunlearn.trap_rate = 0.1
+    cfg.fedunlearn.switch_rounds = 10
+
+
     # ------------------------------------------------------------------------ #
     # FLIT+ related options, gfl
     # ------------------------------------------------------------------------ #
