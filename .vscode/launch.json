@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "run working fedunlearn",
+            "name": "run naive-fedunlearn",
             "type": "python",
             "request": "launch",
             "program": "./federatedscope/main.py",
@@ -14,31 +14,13 @@
             "justMyCode": true
         },
         {
-            "name": "run naive fedunlearn",
+            "name": "run badnet-fedunlearn",
             "type": "python",
             "request": "launch",
             "program": "./federatedscope/main.py",
-            "args": ["--cfg", "./debug-scripts/naive_fedunlearn.yaml"], 
+            "args": ["--cfg", "./new-scripts-high-attack/badnet_fedunlearn.yaml"], 
             "console": "integratedTerminal",
             "justMyCode": true
         },
-        {
-            "name": "run naive fedavg",
-            "type": "python",
-            "request": "launch",
-            "program": "./federatedscope/main.py",
-            "args": ["--cfg", "./debug-scripts/naive_fedavg.yaml"],
-            "console": "integratedTerminal",
-            "justMyCode": true
-        },
-        {
-            "name": "run simple ditto",
-            "type": "python",
-            "request": "launch",
-            "program": "./federatedscope/main.py",
-            "args": ["--cfg", "./debug-scripts/naive_ditto.yaml", "outdir", "garbage_can/"], 
-            "console": "integratedTerminal",
-            "justMyCode": true
-        }
     ]
 }

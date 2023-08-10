@@ -148,6 +148,7 @@ def addTrigger(ctx,
                 n_to_select = len(target_label_indices)
                 logger.info('Anthony: the poison rate exceed the maximum, we poison all the target samples!')
             perm = np.random.choice(target_label_indices, size=n_to_select, replace=False)
+            # ! Anthony mark
             # TODO: Since we use lda as the data splitter and use a very non-iid argument 'alpha=0.05' , the attacker should generate the trigger corresponding to its most labeled data.
         # anthony
 
@@ -202,7 +203,7 @@ def addTrigger(ctx,
         elif label_type == 'clean':
 
             # all2one attack
-            if mode == MODE.TRAIN:
+            if mode == 'train':
                 img = np.array(data[0]).transpose(1, 2, 0) * 255.0
                 img = np.clip(img.astype('uint8'), 0, 255)
                 height = img.shape[0]
@@ -210,20 +211,20 @@ def addTrigger(ctx,
 
                 if i in perm:
                     img = selectTrigger(img, height, width, distance, trig_h,
-                                        trig_w, trigger_type, load_path)
+                                        trig_w, trigger_type)
                     # anthony
                     dataset_.append((img, data[1]))
                     # anthony
 
                 elif 'wanet' in trigger_type and i in perm_cross:
                     img = selectTrigger(img, width, height, distance, trig_w,
-                                        trig_h, 'wanetTriggerCross', load_path)
+                                        trig_h, 'wanetTriggerCross')
                     dataset_.append((img, data[1]))
 
                 else:
                     dataset_.append((img, data[1]))
 
-            if mode == MODE.TEST or mode == MODE.VAL:
+            if mode == 'test':
                 if data[1] == target_label:
                     continue
 
@@ -236,7 +237,7 @@ def addTrigger(ctx,
                     # ! in Narci, during test and validation, the author magnify its trigger by 3 times
                     for _ in range(3):
                         img = selectTrigger(img, width, height, distance, trig_w,
-                                            trig_h, trigger_type, load_path)
+                                            trig_h, trigger_type)
                     dataset_.append((img, data[1]))
                     # anthony
                 else:

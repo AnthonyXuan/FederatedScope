@@ -21,20 +21,24 @@ class BaseConfig:
         self.data = {
             "root": "data/",
             "type": "CIFAR10@torchvision",
-            "splits": [0.8, 0.1, 0.1],
+            # "splits": [0.8, 0.1, 0.1],
+            "splits": [1.0, 0.0, 0.0],
             "num_workers": 0,
-            "transform": [["ToTensor"], ["Normalize", {"mean": [0.4914, 0.4822, 0.4465], "std": [0.2470, 0.2435, 0.2616]}]],
+            "transform": [['ToTensor']],
+            # "transform": [["ToTensor"], ["Normalize", {"mean": [0.4914, 0.4822, 0.4465], "std": [0.2470, 0.2435, 0.2616]}]],
             "args": [{"download": True}],
             "splitter": "lda",
             "splitter_args": [{"alpha": 0.5}],
-            "batch_size": 64
+            "batch_size": 64,
+            # ! 'dataset' is new in backdoor branch 
+            "dataset": ['train', 'val', 'test', 'poison']
         }
         # self.dataloader = {
         #     "batch_size": 64
         # }
         self.model = {
             "type": "convnet2",
-            "hidden": 2048,
+            "hidden": 512,
             "out_channels": 10,
             "dropout": 0.0
         }
@@ -51,10 +55,13 @@ class BaseConfig:
             "type": "cvtrainer"
         }
         self.eval = {
-            "freq": 1,
+            "freq": 100,
             "metrics": ["acc", "correct"],
             "best_res_update_round_wise_key": "test_loss",
-            "split": ["test", "val"]
+            # "split": ["test", "val"],
+            "split": ['test','poison'],
+            # ! 'metrics' is new in backdoor branch
+            "metrics": ['acc', 'correct']
         }
         self.outdir = 'new-output/'
         self.verbose = 1
@@ -86,6 +93,7 @@ class Attack():
                 "label_type": "dirty",
                 "attacker_id": 1,
                 "target_label_ind": 7,
+                "scale_para": 3.0,
                 "mean": [0.4914, 0.4822, 0.4465],
                 "std": [0.2470, 0.2435, 0.2616]
             }
@@ -99,7 +107,6 @@ class Attack():
                 "label_type": "clean",
                 "attacker_id": 4,
                 "target_label_ind": 2,
-                "trigger_path": "my_trigger/",
                 "mean": [0.4914, 0.4822, 0.4465],
                 "std": [0.2470, 0.2435, 0.2616]
             }

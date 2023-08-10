@@ -166,14 +166,12 @@ def _randomPixelTrigger(ctx, img, height, width, distance, trig_h, trig_w):
 
 # anthony
 # ! Modified to suite Narciss (i.e. 3 channels mask)
-def _signalTrigger(img, height, width, distance, trig_h, trig_w, load_path):
+def _signalTrigger(img, height, width, distance, trig_h, trig_w):
     #  vertical stripe pattern different from sig
     alpha = 0.2
     # load signal mask
-    # signal_file = 'signal_cifar10_mask.npy'
     # 用我自己的best——noise，来自narcissi
-    signal_file = 'best_noise_04-20-16_14_17.npy'
-    load_path = os.path.join(load_path, signal_file)
+    load_path = 'my_trigger/best_noise_04-20-16_14_17.npy'
     # signal_mask.shape = (1,3,32,32)
     signal_mask = np.load(load_path)
     signal_mask = signal_mask.transpose(0,2,3,1)

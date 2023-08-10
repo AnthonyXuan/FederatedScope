@@ -17,6 +17,7 @@ from federatedscope.core.auxiliaries.dataloader_builder import WrapDataset
 from typing import Type
 from torch.utils.data import DataLoader
 
+DEBUG_FEDUNLEARN = True
 
 logger = logging.getLogger(__name__)
 
@@ -258,6 +259,13 @@ def _hook_on_fit_end_devide_dataset(ctx):
         
         setattr(ctx, 'benign_data', benign_data)
         setattr(ctx, 'backdoor_data', backdoor_data)
+        
+        if DEBUG_FEDUNLEARN:
+            logger.info("====================================================")
+            logger.info(f'len(backdoor_data):{len(backdoor_data)}')
+            logger.info(f'len(benign_data):{len(benign_data)}')
+            logger.info(f'last 10 min loss:{topk_val[len(topk_indx_final) - 11: len(topk_indx_final) - 1]}')
+            
     
 def init_FedUnlearn_ctx(base_trainer):
     """
