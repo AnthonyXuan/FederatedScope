@@ -15,7 +15,7 @@ class BaseConfig:
             "total_round_num": 500,
             "sample_client_rate": 0.1,
             "make_global_eval": False,
-            "merge_test_data": False
+            "batch_or_epoch": "epoch"
         }
         # fixed dataset, and lda splitter alpha to be 0.5
         self.data = {
@@ -24,27 +24,22 @@ class BaseConfig:
             "splits": [0.8, 0.1, 0.1],
             "num_workers": 0,
             "transform": [["ToTensor"], ["Normalize", {"mean": [0.4914, 0.4822, 0.4465], "std": [0.2470, 0.2435, 0.2616]}]],
-            "test_transform": [["ToTensor"], ["Normalize", {"mean": [0.4914, 0.4822, 0.4465], "std": [0.2470, 0.2435, 0.2616]}]],
             "args": [{"download": True}],
             "splitter": "lda",
-            "splitter_args": [{"alpha": 0.5}]
-        }
-        self.dataloader = {
+            "splitter_args": [{"alpha": 0.5}],
             "batch_size": 64
         }
+        # self.dataloader = {
+        #     "batch_size": 64
+        # }
         self.model = {
             "type": "convnet2",
             "hidden": 2048,
             "out_channels": 10,
             "dropout": 0.0
         }
-        self.train = {
-            # "local_update_steps": 1,
-            "batch_or_epoch": "epoch",
-            "optimizer": {
-                # "lr": 0.1,
-                "weight_decay": 0.0
-            }
+        self.optimizer = {
+            "weight_decay": 0.0
         }
         self.grad = {
             "grad_clip": 5.0
@@ -114,9 +109,9 @@ class FedUnlearnConfig(BaseConfig, Attack):
         BaseConfig.__init__(self)
         Attack.__init__(self, attack_type=attack_type)
         self.federate["method"] = "FedUnlearn"
-        self.train["optimizer"]["lr"] = 0.1
-        self.train["local_update_steps"] = 2
-        self.expname_tag =  attack_type +  '_fedunlearn'
+        self.federate["local_update_steps"] = 2
+        self.optimizer["lr"] = 0.1
+        self.expname =  attack_type +  '_fedunlearn'
         self.device = 0
         self.fedunlearn = {
             'loss_thresh': 0.5,
@@ -129,9 +124,9 @@ class DittoConfig(BaseConfig, Attack):
         BaseConfig.__init__(self)
         Attack.__init__(self, attack_type=attack_type)
         self.federate["method"] = "Ditto"
-        self.train["optimizer"]["lr"] = 0.1
-        self.train["local_update_steps"] = 2
-        self.expname_tag =  attack_type +  '_ditto'
+        self.optimizer["lr"] = 0.1
+        self.federate["local_update_steps"] = 2
+        self.expname =  attack_type +  '_ditto'
         self.device = 1
 
 class FedAvgConfig(BaseConfig, Attack):
@@ -139,9 +134,9 @@ class FedAvgConfig(BaseConfig, Attack):
         BaseConfig.__init__(self)
         Attack.__init__(self, attack_type=attack_type)
         self.federate["method"] = "FedAvg"
-        self.train["optimizer"]["lr"] = 0.1
-        self.train["local_update_steps"] = 2
-        self.expname_tag =  attack_type +  '_fedavg'
+        self.optimizer["lr"] = 0.1
+        self.federate["local_update_steps"] = 2
+        self.expname =  attack_type +  '_fedavg'
         self.device = 1
 
 def write_config_to_yaml(config, filename):
@@ -161,4 +156,4 @@ for attack_type in attack_types:
     cfgs.append(fedunlearn_config(attack_type=attack_type))
 
 for cfg in cfgs:
-    write_config_to_yaml(cfg, os.path.join(base_folder, cfg.expname_tag + '.yaml'))
+    write_config_to_yaml(cfg, os.path.join(base_folder, cfg.expname + '.yaml'))
