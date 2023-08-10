@@ -163,10 +163,9 @@ def _randomPixelTrigger(ctx, img, height, width, distance, trig_h, trig_w):
 
     return blend_img
 
-
 # anthony
 # ! Modified to suite Narciss (i.e. 3 channels mask)
-def _signalTrigger(img, height, width, distance, trig_h, trig_w):
+def _signalTrigger(ctx, img, height, width, distance, trig_h, trig_w):
     #  vertical stripe pattern different from sig
     alpha = 0.2
     # load signal mask

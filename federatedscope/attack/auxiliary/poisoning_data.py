@@ -210,14 +210,14 @@ def addTrigger(ctx,
                 width = img.shape[1]
 
                 if i in perm:
-                    img = selectTrigger(img, height, width, distance, trig_h,
+                    img = selectTrigger(ctx, img, height, width, distance, trig_h,
                                         trig_w, trigger_type)
                     # anthony
                     dataset_.append((img, data[1]))
                     # anthony
 
                 elif 'wanet' in trigger_type and i in perm_cross:
-                    img = selectTrigger(img, width, height, distance, trig_w,
+                    img = selectTrigger(ctx, img, width, height, distance, trig_w,
                                         trig_h, 'wanetTriggerCross')
                     dataset_.append((img, data[1]))
 
@@ -236,7 +236,7 @@ def addTrigger(ctx,
                     # anthony
                     # ! in Narci, during test and validation, the author magnify its trigger by 3 times
                     for _ in range(3):
-                        img = selectTrigger(img, width, height, distance, trig_w,
+                        img = selectTrigger(ctx, img, width, height, distance, trig_w,
                                             trig_h, trigger_type)
                     dataset_.append((img, data[1]))
                     # anthony
