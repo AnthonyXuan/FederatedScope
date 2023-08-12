@@ -35,7 +35,7 @@ def wrap_FedUnlearnTrainer(base_trainer: Type[GeneralTorchTrainer]) -> Type[Gene
     base_trainer.replace_hook_in_train(new_hook=_hook_on_batch_start_init_fedunlearn, target_trigger="on_batch_start", target_hook_name='_hook_on_batch_start_init')
     
     # ! modify this hook to be append, rather than replacement
-    base_trainer.register_hook_in_train(new_hook=_hook_on_fit_end_devide_dataset,
+    base_trainer.register_hook_in_train(new_hook=_hook_on_fit_end_divide_dataset,
                                         trigger='on_fit_end',
                                         insert_pos=0)
 
@@ -76,6 +76,9 @@ def wrap_FedUnlearnTrainer(base_trainer: Type[GeneralTorchTrainer]) -> Type[Gene
         trigger="on_fit_end",
         insert_pos=-1)
 
+    base_trainer.register_hook_in_train(new_hook=_hook_on_fit_end_show_loss_debug,
+                                        trigger="on_fit_end",
+                                        insert_pos=-1)
     base_trainer.register_hook_in_train(new_hook=_hook_on_fit_end_free_cuda,
                                         trigger="on_fit_end",
                                         insert_pos=-1)
@@ -217,7 +220,7 @@ def _hook_on_batch_forward_fedunlearn(ctx):
         ctx.batch_size = len(label)
     
 # ! modify this function to classify benign data and backdoor data
-def _hook_on_fit_end_devide_dataset(ctx):
+def _hook_on_fit_end_divide_dataset(ctx):
 
     if ctx.world_state == ctx.switch_rounds:
         # save default reduction parameters
@@ -247,13 +250,17 @@ def _hook_on_fit_end_devide_dataset(ctx):
         for i, flag in enumerate(topk_flag):
             if flag:
                 topk_indx_final.append(topk_indx[i])
-        topk_indx_final = torch.stack(topk_indx_final)
-        
-        train_data = [item for item in ctx.data['train'].dataset]
-        backdoor_data = [train_data[indx] for indx in topk_indx_final]
-        mask = torch.ones([len(train_data)], dtype=torch.bool)
-        # mask = torch.ones_like(train_data, dtype=torch.bool)
-        mask[topk_indx_final] = False
+        if topk_indx_final != []:
+            topk_indx_final = torch.stack(topk_indx_final)
+            train_data = [item for item in ctx.data['train'].dataset]
+            backdoor_data = [train_data[indx] for indx in topk_indx_final]
+            mask = torch.ones([len(train_data)], dtype=torch.bool)
+            mask[topk_indx_final] = False
+            
+        else:
+            train_data = [item for item in ctx.data['train'].dataset]
+            backdoor_data = []
+            mask = torch.ones([len(train_data)], dtype=torch.bool)
         
         benign_data = [train_data[i] for i, flag in enumerate(mask) if flag]
         
@@ -264,8 +271,19 @@ def _hook_on_fit_end_devide_dataset(ctx):
             logger.info("====================================================")
             logger.info(f'len(backdoor_data):{len(backdoor_data)}')
             logger.info(f'len(benign_data):{len(benign_data)}')
-            logger.info(f'last 10 min loss:{topk_val[len(topk_indx_final) - 11: len(topk_indx_final) - 1]}')
+            if len(topk_indx_final) - 11 >= 0:
+                logger.info(f'last 10 min loss:{topk_val[len(topk_indx_final) - 11: len(topk_indx_final) - 1]}')
+            else:
+                logger.info(f'last min loss:{topk_val[:len(topk_indx_final) - 1]}')
             
+def _hook_on_fit_end_show_loss_debug(ctx):
+
+    default_reduction = ctx.criterion.reduction
+    ctx.criterion.reduction = 'none'
+    train_loss = ctx.criterion(torch.tensor(ctx.train_y_prob), torch.tensor(ctx.train_y_true))
+    ctx.criterion.reduction = default_reduction
+    
+    logger.info(f"num sample loss le 0.5 :{torch.sum(train_loss < 0.5)}")
     
 def init_FedUnlearn_ctx(base_trainer):
     """
@@ -401,7 +419,6 @@ def _hook_on_fit_start_switch_local_model(ctx):
 def _hook_on_fit_end_switch_global_model(ctx):
 
     ctx.model = ctx.global_model
-
 
 def _hook_on_fit_end_free_cuda(ctx):
 

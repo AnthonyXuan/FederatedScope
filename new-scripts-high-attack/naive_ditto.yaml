@@ -1,7 +1,7 @@
 attack:
   attack_method: backdoor
   attacker_id: 1
-  freq: 100
+  freq: 500
   label_type: dirty
   mean: [0.4914, 0.4822, 0.4465]
   poison_ratio: 1.0e-05

@@ -1,7 +1,7 @@
 import yaml
 import os
 # base_folder = './new-scripts'
-base_folder = './new-scripts-high-attack'
+base_folder = './scripts_debug_fedunlearn'
 
 class BaseConfig:
     def __init__(self):
@@ -12,7 +12,7 @@ class BaseConfig:
         self.federate = {
             "mode": "standalone",
             "client_num": 100,
-            "total_round_num": 500,
+            "total_round_num": 100,
             "sample_client_rate": 0.1,
             "make_global_eval": False,
             "batch_or_epoch": "epoch"
@@ -63,7 +63,7 @@ class BaseConfig:
             # ! 'metrics' is new in backdoor branch
             "metrics": ['acc', 'correct']
         }
-        self.outdir = 'new-output/'
+        self.outdir = 'debug-output/'
         self.verbose = 1
 
 class Attack():
@@ -87,7 +87,7 @@ class Attack():
             self.attack = {
                 "attack_method": "backdoor",
                 "setting": "fix",
-                "poison_ratio": 0.05,
+                "poison_ratio": 0.5,
                 "freq": 3,
                 "trigger_type": "squareTrigger",
                 "label_type": "dirty",
@@ -132,8 +132,8 @@ class FedUnlearnConfig(BaseConfig, Attack):
         self.device = 0
         self.fedunlearn = {
             'loss_thresh': 0.5,
-            ' _rate': 0.05,
-            'switch_rounds': 9
+            'trap_rate': 0.05,
+            'switch_rounds': 6
         }
 class DittoConfig(BaseConfig, Attack):
     def __init__(self, attack_type):

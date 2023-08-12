@@ -9,7 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "./federatedscope/main.py",
-            "args": ["--cfg", "./new-scripts-high-attack/naive_fedunlearn.yaml"], 
+            "args": ["--cfg", "./scripts_debug_fedunlearn/naive_fedunlearn.yaml"], 
             "console": "integratedTerminal",
             "justMyCode": true
         },
@@ -18,7 +18,7 @@
             "type": "python",
             "request": "launch",
             "program": "./federatedscope/main.py",
-            "args": ["--cfg", "./new-scripts-high-attack/badnet_fedunlearn.yaml"], 
+            "args": ["--cfg", "./scripts_debug_fedunlearn/badnet_fedunlearn.yaml"], 
             "console": "integratedTerminal",
             "justMyCode": true
         },
