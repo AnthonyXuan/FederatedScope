@@ -47,8 +47,13 @@ class Client(Worker):
 
         # Attack only support the stand alone model;
         # Check if is a attacker; a client is a attacker if the config.attack.attack_method is provided
-        self.is_attacker = config.attack.attacker_id == ID and \
-                           config.attack.attack_method != '' and config.federate.mode == 'standalone'
+        # ! Anthony: extend attackers
+        if config.attack.use_multi_attackers:
+            self.is_attacker = ID in config.attack.attackers_list and \
+                config.attack.attack_method != '' and config.federate.mode == 'standalone'
+        else:
+            self.is_attacker = config.attack.attacker_id == ID and \
+                            config.attack.attack_method != '' and config.federate.mode == 'standalone'
 
         # Build Trainer
         # trainer might need configurations other than those of trainer node

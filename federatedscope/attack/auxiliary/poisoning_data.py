@@ -347,7 +347,7 @@ def select_poisoning(data, ctx, mode):
 
 def poisoning(data, ctx):
     for i in range(1, len(data) + 1):
-        if i == ctx.attack.attacker_id:
+        if (ctx.attack.use_multi_attackers and i in ctx.attack.attackers_list) or (not ctx.attack.use_multi_attackers and i == ctx.attack.attacker_id):
             logger.info(50 * '-')
             logger.info('start poisoning!!!!!!')
             logger.info(50 * '-')

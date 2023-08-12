@@ -11,11 +11,15 @@ def extend_attack_cfg(cfg):
     cfg.attack.attack_method = ''
     # for gan_attack and backdoor attack
     cfg.attack.target_label_ind = -1
+    # add attacker list
+    # the usage of multi_attackers will disable `cfg.attack.attacker_id`
+    cfg.attack.use_multi_attackers = False
+    cfg.attack.attackers_list = []
     cfg.attack.attacker_id = -1
 
     # for backdoor attack
 
-    cfg.attack.setting = 'fix'
+    cfg.attack.setting = 'fix' # ! Anthony: add a valid choice 'random' for 'cfg.attack.setting', which denote randomly choose between all clients dispite they are benign or attacker
     cfg.attack.freq = 10
     cfg.attack.insert_round = 100000
     cfg.attack.mean = [0.1307]

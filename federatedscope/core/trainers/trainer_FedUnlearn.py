@@ -76,9 +76,9 @@ def wrap_FedUnlearnTrainer(base_trainer: Type[GeneralTorchTrainer]) -> Type[Gene
         trigger="on_fit_end",
         insert_pos=-1)
 
-    base_trainer.register_hook_in_train(new_hook=_hook_on_fit_end_show_loss_debug,
-                                        trigger="on_fit_end",
-                                        insert_pos=-1)
+    # base_trainer.register_hook_in_train(new_hook=_hook_on_fit_end_show_loss_debug,
+    #                                     trigger="on_fit_end",
+    #                                     insert_pos=-1)
     base_trainer.register_hook_in_train(new_hook=_hook_on_fit_end_free_cuda,
                                         trigger="on_fit_end",
                                         insert_pos=-1)

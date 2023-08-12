@@ -54,66 +54,136 @@ class BackdoorServer(Server):
             sample_client_num: the number of sampled clients in the broadcast behavior.
                 And sample_client_num = -1 denotes to broadcast to all the clients.
         """
+    #         cfg.attack.use_multi_attackers = False
+    # cfg.attack.attackers_list = []
+        if self._cfg.attack.use_multi_attackers:
+            if sample_client_num > 0:  # only activated at training process
 
-        if sample_client_num > 0:  # only activated at training process
+                if self._cfg.attack.attackers_list == [] or self._cfg.attack.attack_method == '':
+                    receiver = np.random.choice(np.arange(1, self.client_num + 1),
+                                                size=sample_client_num,
+                                                replace=False).tolist()
 
-            if self._cfg.attack.attacker_id == -1 or self._cfg.attack.attack_method == '':
-                receiver = np.random.choice(np.arange(1, self.client_num + 1),
-                                            size=sample_client_num,
-                                            replace=False).tolist()
+                elif self._cfg.attack.setting == 'fix':
+                    if self.state % self._cfg.attack.freq == 0:
+                        client_list = np.delete(np.arange(1, self.client_num + 1),
+                                                [attacker_id -1 for attacker_id in self._cfg.attack.attackers_list])
+                        receiver = np.random.choice(client_list,
+                                                    size=sample_client_num - len(self._cfg.attack.attackers_list),
+                                                    replace=False).tolist()
+                        for attacker_id in self._cfg.attack.attackers_list:
+                            receiver.insert(0, attacker_id)
+                        logger.info('starting the fix-frequency poisoning attack')
+                        logger.info(
+                            'starting the poisoning round: {:d}, the attackers list: {}'
+                            .format(self.state, self._cfg.attack.attackers_list))
+                    else:
+                        client_list = np.delete(np.arange(1, self.client_num + 1),
+                                                [attacker_id -1 for attacker_id in self._cfg.attack.attackers_list])
+                        receiver = np.random.choice(client_list,
+                                                    size=sample_client_num,
+                                                    replace=False).tolist()
 
-            elif self._cfg.attack.setting == 'fix':
-                if self.state % self._cfg.attack.freq == 0:
+                elif self._cfg.attack.setting == 'single' and self.state == self._cfg.attack.insert_round:
+                    # need to check this setting
+                    client_list = np.delete(np.arange(1, self.client_num + 1),
+                                            [attacker_id -1 for attacker_id in self._cfg.attack.attackers_list])
+                    receiver = np.random.choice(client_list,
+                                                size=sample_client_num - len(self._cfg.attack.attackers_list),
+                                                replace=False).tolist()
+                    for attacker_id in self._cfg.attack.attackers_list:
+                            receiver.insert(0, attacker_id)
+                    logger.info('starting the single-shot poisoning attack')
+                    logger.info(
+                        'starting the poisoning round: {:d}, the attacker ID: {:d}'
+                        .format(self.state, self._cfg.attack.attacker_id))
+
+                elif self._cfg.attack.setting == 'all':
+                    client_list = np.delete(np.arange(1, self.client_num + 1),
+                                            [attacker_id -1 for attacker_id in self._cfg.attack.attackers_list])
+                    receiver = np.random.choice(client_list,
+                                                size=sample_client_num - len(self._cfg.attack.attackers_list),
+                                                replace=False).tolist()
+                    for c in self._cfg.attack.attackers_list:
+                            receiver.insert(0, attacker_id)
+                    logger.info('starting the all-round poisoning attack')
+                    logger.info(
+                        'starting the poisoning round: {:d}, the attacker ID: {:d}'
+                        .format(self.state, self._cfg.attack.attacker_id))
+
+                elif self._cfg.attack.setting == 'random':
+                    receiver = np.random.choice(np.arange(1, self.client_num + 1),
+                                                size=sample_client_num,
+                                                replace=False).tolist()
+                else:
+                    pass
+
+            else:
+                # broadcast to all clients
+                receiver = list(self.comm_manager.neighbors.keys())
+        # ! Anthony: use single attacker settings
+        else:
+            if sample_client_num > 0:  # only activated at training process
+
+                if self._cfg.attack.attacker_id == -1 or self._cfg.attack.attack_method == '':
+                    receiver = np.random.choice(np.arange(1, self.client_num + 1),
+                                                size=sample_client_num,
+                                                replace=False).tolist()
+
+                elif self._cfg.attack.setting == 'fix':
+                    if self.state % self._cfg.attack.freq == 0:
+                        client_list = np.delete(np.arange(1, self.client_num + 1),
+                                                self._cfg.attack.attacker_id - 1)
+                        receiver = np.random.choice(client_list,
+                                                    size=sample_client_num - 1,
+                                                    replace=False).tolist()
+                        receiver.insert(0, self._cfg.attack.attacker_id)
+                        logger.info('starting the fix-frequency poisoning attack')
+                        logger.info(
+                            'starting the poisoning round: {:d}, the attacker ID: {:d}'
+                            .format(self.state, self._cfg.attack.attacker_id))
+                    else:
+                        client_list = np.delete(np.arange(1, self.client_num + 1),
+                                                self._cfg.attack.attacker_id - 1)
+                        receiver = np.random.choice(client_list,
+                                                    size=sample_client_num,
+                                                    replace=False).tolist()
+
+                elif self._cfg.attack.setting == 'single' and self.state == self._cfg.attack.insert_round:
+                    # need to check this setting
                     client_list = np.delete(np.arange(1, self.client_num + 1),
                                             self._cfg.attack.attacker_id - 1)
                     receiver = np.random.choice(client_list,
                                                 size=sample_client_num - 1,
                                                 replace=False).tolist()
                     receiver.insert(0, self._cfg.attack.attacker_id)
-                    logger.info('starting the fix-frequency poisoning attack')
+                    logger.info('starting the single-shot poisoning attack')
                     logger.info(
                         'starting the poisoning round: {:d}, the attacker ID: {:d}'
                         .format(self.state, self._cfg.attack.attacker_id))
-                else:
+
+                elif self._cfg.attack.setting == 'all':
                     client_list = np.delete(np.arange(1, self.client_num + 1),
                                             self._cfg.attack.attacker_id - 1)
                     receiver = np.random.choice(client_list,
+                                                size=sample_client_num - 1,
+                                                replace=False).tolist()
+                    receiver.insert(0, self._cfg.attack.attacker_id)
+                    logger.info('starting the all-round poisoning attack')
+                    logger.info(
+                        'starting the poisoning round: {:d}, the attacker ID: {:d}'
+                        .format(self.state, self._cfg.attack.attacker_id))
+
+                elif self._cfg.attack.setting == 'random':
+                    receiver = np.random.choice(np.arange(1, self.client_num + 1),
                                                 size=sample_client_num,
                                                 replace=False).tolist()
-
-            elif self._cfg.attack.setting == 'single' and self.state == self._cfg.attack.insert_round:
-                # need to check this setting
-                client_list = np.delete(np.arange(1, self.client_num + 1),
-                                        self._cfg.attack.attacker_id - 1)
-                receiver = np.random.choice(client_list,
-                                            size=sample_client_num - 1,
-                                            replace=False).tolist()
-                receiver.insert(0, self._cfg.attack.attacker_id)
-                logger.info('starting the single-shot poisoning attack')
-                logger.info(
-                    'starting the poisoning round: {:d}, the attacker ID: {:d}'
-                    .format(self.state, self._cfg.attack.attacker_id))
-
-            elif self._cfg.attack.setting == 'all':
-                client_list = np.delete(np.arange(1, self.client_num + 1),
-                                        self._cfg.attack.attacker_id - 1)
-                receiver = np.random.choice(client_list,
-                                            size=sample_client_num - 1,
-                                            replace=False).tolist()
-                receiver.insert(0, self._cfg.attack.attacker_id)
-                logger.info('starting the all-round poisoning attack')
-                logger.info(
-                    'starting the poisoning round: {:d}, the attacker ID: {:d}'
-                    .format(self.state, self._cfg.attack.attacker_id))
+                else:
+                    pass
 
             else:
-                receiver = np.random.choice(np.arange(1, self.client_num + 1),
-                                            size=sample_client_num,
-                                            replace=False).tolist()
-
-        else:
-            # broadcast to all clients
-            receiver = list(self.comm_manager.neighbors.keys())
+                # broadcast to all clients
+                receiver = list(self.comm_manager.neighbors.keys())
 
         if self._noise_injector is not None and msg_type == 'model_para':
             # Inject noise only when broadcast parameters

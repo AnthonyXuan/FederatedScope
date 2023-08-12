@@ -11,9 +11,9 @@ class BaseConfig:
         self.seed = 12345
         self.federate = {
             "mode": "standalone",
-            "client_num": 100,
+            "client_num": 10,
             "total_round_num": 100,
-            "sample_client_rate": 0.1,
+            "sample_client_rate": 0.5,
             "make_global_eval": False,
             "batch_or_epoch": "epoch"
         }
@@ -67,9 +67,10 @@ class BaseConfig:
         self.verbose = 1
 
 class Attack():
-    def __init__(self, attack_type="naive"):
+    def __init__(self, attack_type="naive", use_multi_attackers=False, attackers_list=[], attacker_id=1, attack_settings='fix'):
         if attack_type not in ['naive', 'badnet', 'narci']:
             print('Abort! Bad attack type!')
+            
         if attack_type == 'naive':
             self.attack = {
                 "attack_method": "backdoor",
@@ -87,7 +88,7 @@ class Attack():
             self.attack = {
                 "attack_method": "backdoor",
                 "setting": "fix",
-                "poison_ratio": 0.5,
+                "poison_ratio": 0.1,
                 "freq": 3,
                 "trigger_type": "squareTrigger",
                 "label_type": "dirty",
@@ -105,26 +106,35 @@ class Attack():
                 "freq": 3,
                 "trigger_type": "signalTrigger",
                 "label_type": "clean",
-                "attacker_id": 4,
+                "attacker_id": 1,
                 "target_label_ind": 2,
                 "mean": [0.4914, 0.4822, 0.4465],
                 "std": [0.2470, 0.2435, 0.2616]
             }
+            
+        self.attack['use_multi_attackers'] = use_multi_attackers
+        self.attack['attackers_list'] = attackers_list
+        self.attack['attacker_id'] = attacker_id
+        self.attack['setting'] = attack_settings
 
-class FedAvgConfig(BaseConfig, Attack):
+class MultiAttack(Attack):
+    def __init__(self, attack_type="naive"):
+        super().__init__(attack_type, use_multi_attackers=True, attackers_list=[1,2,3,4,5], attack_settings='random')
+
+class FedAvgConfig(BaseConfig, MultiAttack):
     def __init__(self, attack_type):
         BaseConfig.__init__(self)
-        Attack.__init__(self, attack_type=attack_type)
+        MultiAttack.__init__(self, attack_type=attack_type)
         self.federate["method"] = "FedAvg"
         self.optimizer["lr"] = 0.1
         self.federate["local_update_steps"] = 2
         self.expname =  attack_type +  '_fedavg'
         self.device = 1
         
-class FedUnlearnConfig(BaseConfig, Attack):
+class FedUnlearnConfig(BaseConfig, MultiAttack):
     def __init__(self, attack_type):
         BaseConfig.__init__(self)
-        Attack.__init__(self, attack_type=attack_type)
+        MultiAttack.__init__(self, attack_type=attack_type)
         self.federate["method"] = "FedUnlearn"
         self.federate["local_update_steps"] = 2
         self.optimizer["lr"] = 0.1
@@ -135,20 +145,21 @@ class FedUnlearnConfig(BaseConfig, Attack):
             'trap_rate': 0.05,
             'switch_rounds': 6
         }
-class DittoConfig(BaseConfig, Attack):
+        
+class DittoConfig(BaseConfig, MultiAttack):
     def __init__(self, attack_type):
         BaseConfig.__init__(self)
-        Attack.__init__(self, attack_type=attack_type)
+        MultiAttack.__init__(self, attack_type=attack_type)
         self.federate["method"] = "Ditto"
         self.optimizer["lr"] = 0.1
         self.federate["local_update_steps"] = 2
         self.expname =  attack_type +  '_ditto'
         self.device = 1
         
-class pFedMeConfig(BaseConfig, Attack):
+class pFedMeConfig(BaseConfig, MultiAttack):
     def __init__(self, attack_type):
         BaseConfig.__init__(self)
-        Attack.__init__(self, attack_type=attack_type)
+        MultiAttack.__init__(self, attack_type=attack_type)
         self.federate["method"] = "pFedMe"
         self.optimizer["lr"] = 0.1
         self.federate["local_update_steps"] = 3
@@ -160,10 +171,10 @@ class pFedMeConfig(BaseConfig, Attack):
         self.expname =  attack_type +  '_pfedme'
         self.device = 1
         
-class FedRepConfig(BaseConfig, Attack):
+class FedRepConfig(BaseConfig, MultiAttack):
     def __init__(self, attack_type):
         BaseConfig.__init__(self)
-        Attack.__init__(self, attack_type=attack_type)
+        MultiAttack.__init__(self, attack_type=attack_type)
         self.federate["method"] = "FedRep"
         self.optimizer["lr"] = 0.1
         self.federate["local_update_steps"] = 2
