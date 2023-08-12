@@ -147,8 +147,6 @@ nohup.out
 xuan-output/
 new-output/
 
-*.txt
-
 garbage_can/
 
 debug-output/
