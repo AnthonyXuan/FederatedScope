@@ -12,7 +12,7 @@ class BaseConfig:
         self.federate = {
             "mode": "standalone",
             "client_num": 100,
-            "total_round_num": 500,
+            "total_round_num": 100,
             "sample_client_rate": 0.1,
             "make_global_eval": False,
             "batch_or_epoch": "epoch"
@@ -68,7 +68,7 @@ class BaseConfig:
 
 class Attack():
     def __init__(self, attack_type="naive"):
-        if attack_type not in ['naive', 'badnet', 'narci']:
+        if attack_type not in ['naive', 'badnet', 'narci', 'hk', 'signal']:
             print('Abort! Bad attack type!')
         if attack_type == 'naive':
             self.attack = {
@@ -93,7 +93,6 @@ class Attack():
                 "label_type": "dirty",
                 "attacker_id": 1,
                 "target_label_ind": 7,
-                "scale_para": 3.0,
                 "mean": [0.4914, 0.4822, 0.4465],
                 "std": [0.2470, 0.2435, 0.2616]
             }
@@ -103,10 +102,36 @@ class Attack():
                 "setting": "fix",
                 "poison_ratio": 0.05,
                 "freq": 3,
-                "trigger_type": "signalTrigger",
+                "trigger_type": "narciTrigger",
                 "label_type": "clean",
                 "attacker_id": 4,
                 "target_label_ind": 2,
+                "mean": [0.4914, 0.4822, 0.4465],
+                "std": [0.2470, 0.2435, 0.2616]
+            }
+        elif attack_type == 'hk':
+            self.attack = {
+                "attack_method": "backdoor",
+                "setting": "fix",
+                "poison_ratio": 0.05,
+                "freq": 3,
+                "trigger_type": "hkTrigger",
+                "label_type": "dirty",
+                "attacker_id": 1,
+                "target_label_ind": 7,
+                "mean": [0.4914, 0.4822, 0.4465],
+                "std": [0.2470, 0.2435, 0.2616]
+            }
+        elif attack_type == 'signal':
+            self.attack = {
+                "attack_method": "backdoor",
+                "setting": "fix",
+                "poison_ratio": 0.05,
+                "freq": 3,
+                "trigger_type": "signalTrigger",
+                "label_type": "dirty",
+                "attacker_id": 1,
+                "target_label_ind": 7,
                 "mean": [0.4914, 0.4822, 0.4465],
                 "std": [0.2470, 0.2435, 0.2616]
             }
@@ -119,8 +144,9 @@ class FedAvgConfig(BaseConfig, Attack):
         self.optimizer["lr"] = 0.1
         self.federate["local_update_steps"] = 2
         self.expname =  attack_type +  '_fedavg'
-        self.device = 1
+        self.device = 0
         
+# ! It seems this algo sucks
 class FedUnlearnConfig(BaseConfig, Attack):
     def __init__(self, attack_type):
         BaseConfig.__init__(self)
@@ -135,6 +161,7 @@ class FedUnlearnConfig(BaseConfig, Attack):
             ' _rate': 0.05,
             'switch_rounds': 9
         }
+        
 class DittoConfig(BaseConfig, Attack):
     def __init__(self, attack_type):
         BaseConfig.__init__(self)
@@ -158,7 +185,7 @@ class pFedMeConfig(BaseConfig, Attack):
             'beta': 1.0
         }
         self.expname =  attack_type +  '_pfedme'
-        self.device = 1
+        self.device = 2
         
 class FedRepConfig(BaseConfig, Attack):
     def __init__(self, attack_type):
@@ -176,7 +203,7 @@ class FedRepConfig(BaseConfig, Attack):
             'share_non_trainable_para': False
         }
         self.expname =  attack_type +  '_fedrep'
-        self.device = 1
+        self.device = 3
         
 
 def write_config_to_yaml(config, filename):
@@ -185,7 +212,7 @@ def write_config_to_yaml(config, filename):
 
 cfgs = []
 
-attack_types = ['naive', 'badnet', 'narci']
+attack_types = ['naive', 'badnet', 'narci', 'hk', 'signal']
 ditto_config = DittoConfig
 fedavg_config = FedAvgConfig
 fedunlearn_config = FedUnlearnConfig

@@ -69,6 +69,10 @@ def selectTrigger(ctx, img, height, width, distance, trig_h, trig_w,
     elif triggerType == 'wanetTriggerCross':
         img = _wanetTriggerCross(ctx, img, height, width, distance, trig_h,
                                  trig_w)
+    # ! Anthony: Implement for narci
+    elif triggerType == 'narciTrigger':
+        img = _narciTrigger(ctx, img, height, width, distance, trig_h, trig_w)
+        
     else:
         raise NotImplementedError
 
@@ -165,7 +169,7 @@ def _randomPixelTrigger(ctx, img, height, width, distance, trig_h, trig_w):
 
 # anthony
 # ! Modified to suite Narciss (i.e. 3 channels mask)
-def _signalTrigger(ctx, img, height, width, distance, trig_h, trig_w):
+def _narciTrigger(ctx, img, height, width, distance, trig_h, trig_w):
     #  vertical stripe pattern different from sig
     alpha = 0.2
     # load signal mask
@@ -180,22 +184,22 @@ def _signalTrigger(ctx, img, height, width, distance, trig_h, trig_w):
 
     return blend_img
 
-# def _signalTrigger(ctx, img, height, width, distance, trig_h, trig_w):
-#     alpha = 0.2
-#     file_name = os.path.join(ctx.data.root, 'triggers/signal_cifar10_mask.npy')
-#     signal_mask = np.load(file_name)
-#     blend_img = (1 - alpha) * img + alpha * signal_mask.reshape(
-#         (height, width, 1))
-#     blend_img = np.clip(blend_img.astype('uint8'), 0, 255)
+def _signalTrigger(ctx, img, height, width, distance, trig_h, trig_w):
+    alpha = 0.2
+    file_name = os.path.join(ctx.data.root, 'triggers/signal_cifar10_mask.npy')
+    signal_mask = np.load(file_name)
+    blend_img = (1 - alpha) * img + alpha * signal_mask.reshape(
+        (height, width, 1))
+    blend_img = np.clip(blend_img.astype('uint8'), 0, 255)
 
-#     return blend_img
+    return blend_img
 
 
 def _hkTrigger(ctx, img, height, width, distance, trig_h, trig_w):
 
     alpha = 0.2
 
-    file_name = os.path.join(ctx.data.root, 'triggers/hello_kitty.png')
+    file_name = os.path.join(ctx.data.root, 'triggers/hello_kitty.jpg')
     signal_mask = mlt.imread(file_name) * 255
     signal_mask = cv2.resize(signal_mask, (height, width))
     if img.shape[2] == 1:

@@ -11,9 +11,9 @@ class BaseConfig:
         self.seed = 12345
         self.federate = {
             "mode": "standalone",
-            "client_num": 10,
+            "client_num": 100,
             "total_round_num": 100,
-            "sample_client_rate": 0.5,
+            "sample_client_rate": 0.1,
             "make_global_eval": False,
             "batch_or_epoch": "epoch"
         }
@@ -88,7 +88,7 @@ class Attack():
             self.attack = {
                 "attack_method": "backdoor",
                 "setting": "fix",
-                "poison_ratio": 0.1,
+                "poison_ratio": 0.01,
                 "freq": 3,
                 "trigger_type": "squareTrigger",
                 "label_type": "dirty",
@@ -119,7 +119,8 @@ class Attack():
 
 class MultiAttack(Attack):
     def __init__(self, attack_type="naive"):
-        super().__init__(attack_type, use_multi_attackers=True, attackers_list=[1,2,3,4,5], attack_settings='random')
+        attackers_list = list(range(2,101))
+        super().__init__(attack_type, use_multi_attackers=True, attackers_list=attackers_list, attack_settings='random')
 
 class FedAvgConfig(BaseConfig, MultiAttack):
     def __init__(self, attack_type):
@@ -142,8 +143,8 @@ class FedUnlearnConfig(BaseConfig, MultiAttack):
         self.device = 0
         self.fedunlearn = {
             'loss_thresh': 0.5,
-            'trap_rate': 0.05,
-            'switch_rounds': 6
+            'trap_rate': 0.001,
+            'switch_rounds': 0
         }
         
 class DittoConfig(BaseConfig, MultiAttack):
