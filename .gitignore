@@ -151,5 +151,7 @@ garbage_can/
 
 debug-output/
 
-new-scripts-high-attack
-scripts_debug_fedunlearn
+new-scripts-high-attack/
+scripts_debug_fedunlearn/
+
+200-rounds-scripts/

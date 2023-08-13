@@ -32,7 +32,7 @@ def selectTrigger(ctx, img, height, width, distance, trig_h, trig_w,
                            'fourCornerTrigger', 'randomPixelTrigger',
                             'signalTrigger', 'hkTrigger', 'trojanTrigger', \
                                 'sigTrigger','sig_n_Trigger', 'wanetTrigger',\
-                                    'wanetTriggerCross']
+                                    'wanetTriggerCross', 'narciTrigger']
 
     if triggerType == 'squareTrigger':
         img = _squareTrigger(ctx, img, height, width, distance, trig_h, trig_w)

@@ -1,7 +1,8 @@
 import yaml
 import os
 # base_folder = './new-scripts'
-base_folder = './new-scripts-high-attack'
+# base_folder = './new-scripts-high-attack'
+base_folder = './200-rounds-scripts'
 
 class BaseConfig:
     def __init__(self):
@@ -12,7 +13,7 @@ class BaseConfig:
         self.federate = {
             "mode": "standalone",
             "client_num": 100,
-            "total_round_num": 100,
+            "total_round_num": 200,
             "sample_client_rate": 0.1,
             "make_global_eval": False,
             "batch_or_epoch": "epoch"
@@ -63,30 +64,23 @@ class BaseConfig:
             # ! 'metrics' is new in backdoor branch
             "metrics": ['acc', 'correct']
         }
-        self.outdir = 'new-output/'
+        self.outdir = 'trytry/'
         self.verbose = 1
 
 class Attack():
-    def __init__(self, attack_type="naive"):
+    def __init__(self, attack_type="naive",use_multi_attackers=False, attackers_list=[], attacker_id=1, attack_settings='fix', poison_rate=0.05):
         if attack_type not in ['naive', 'badnet', 'narci', 'hk', 'signal']:
             print('Abort! Bad attack type!')
         if attack_type == 'naive':
             self.attack = {
-                "attack_method": "backdoor",
-                "setting": "fix",
-                "poison_ratio": 0.00001,
-                "freq": 500,
-                "trigger_type": "squareTrigger",
-                "label_type": "dirty",
-                "attacker_id": 1,
-                "target_label_ind": 7,
+                "attacker_id": -1,
                 "mean": [0.4914, 0.4822, 0.4465],
                 "std": [0.2470, 0.2435, 0.2616]
             }
+            return
         elif attack_type == 'badnet':
             self.attack = {
                 "attack_method": "backdoor",
-                "setting": "fix",
                 "poison_ratio": 0.05,
                 "freq": 3,
                 "trigger_type": "squareTrigger",
@@ -99,12 +93,11 @@ class Attack():
         elif attack_type == 'narci':
             self.attack = {
                 "attack_method": "backdoor",
-                "setting": "fix",
                 "poison_ratio": 0.05,
                 "freq": 3,
                 "trigger_type": "narciTrigger",
                 "label_type": "clean",
-                "attacker_id": 4,
+                "attacker_id": 1,
                 "target_label_ind": 2,
                 "mean": [0.4914, 0.4822, 0.4465],
                 "std": [0.2470, 0.2435, 0.2616]
@@ -112,7 +105,6 @@ class Attack():
         elif attack_type == 'hk':
             self.attack = {
                 "attack_method": "backdoor",
-                "setting": "fix",
                 "poison_ratio": 0.05,
                 "freq": 3,
                 "trigger_type": "hkTrigger",
@@ -125,7 +117,6 @@ class Attack():
         elif attack_type == 'signal':
             self.attack = {
                 "attack_method": "backdoor",
-                "setting": "fix",
                 "poison_ratio": 0.05,
                 "freq": 3,
                 "trigger_type": "signalTrigger",
@@ -135,11 +126,23 @@ class Attack():
                 "mean": [0.4914, 0.4822, 0.4465],
                 "std": [0.2470, 0.2435, 0.2616]
             }
+            
+        self.attack['use_multi_attackers'] = use_multi_attackers
+        self.attack['attackers_list'] = attackers_list
+        self.attack['attacker_id'] = attacker_id
+        self.attack['setting'] = attack_settings
+        
+class MyAttack(Attack):
+    def __init__(self, attack_type="naive", multi_attack=False):
+        if multi_attack:
+            super().__init__(attack_type, use_multi_attackers=True, attackers_list=list(range(1,6)), attack_settings='fix', poison_rate=0.01)
+        else:
+            super().__init__(attack_type, use_multi_attackers=False)
 
-class FedAvgConfig(BaseConfig, Attack):
-    def __init__(self, attack_type):
+class FedAvgConfig(BaseConfig, MyAttack):
+    def __init__(self, attack_type, use_multiple_attackers):
         BaseConfig.__init__(self)
-        Attack.__init__(self, attack_type=attack_type)
+        MyAttack.__init__(self, attack_type=attack_type, multi_attack=use_multiple_attackers)
         self.federate["method"] = "FedAvg"
         self.optimizer["lr"] = 0.1
         self.federate["local_update_steps"] = 2
@@ -147,10 +150,10 @@ class FedAvgConfig(BaseConfig, Attack):
         self.device = 0
         
 # ! It seems this algo sucks
-class FedUnlearnConfig(BaseConfig, Attack):
-    def __init__(self, attack_type):
+class FedUnlearnConfig(BaseConfig, MyAttack):
+    def __init__(self, attack_type, use_multiple_attackers):
         BaseConfig.__init__(self)
-        Attack.__init__(self, attack_type=attack_type)
+        MyAttack.__init__(self, attack_type=attack_type, multi_attack=use_multiple_attackers)
         self.federate["method"] = "FedUnlearn"
         self.federate["local_update_steps"] = 2
         self.optimizer["lr"] = 0.1
@@ -162,20 +165,20 @@ class FedUnlearnConfig(BaseConfig, Attack):
             'switch_rounds': 9
         }
         
-class DittoConfig(BaseConfig, Attack):
-    def __init__(self, attack_type):
+class DittoConfig(BaseConfig, MyAttack):
+    def __init__(self, attack_type, use_multiple_attackers):
         BaseConfig.__init__(self)
-        Attack.__init__(self, attack_type=attack_type)
+        MyAttack.__init__(self, attack_type=attack_type, multi_attack=use_multiple_attackers)
         self.federate["method"] = "Ditto"
         self.optimizer["lr"] = 0.1
         self.federate["local_update_steps"] = 2
         self.expname =  attack_type +  '_ditto'
         self.device = 1
         
-class pFedMeConfig(BaseConfig, Attack):
-    def __init__(self, attack_type):
+class pFedMeConfig(BaseConfig, MyAttack):
+    def __init__(self, attack_type, use_multiple_attackers):
         BaseConfig.__init__(self)
-        Attack.__init__(self, attack_type=attack_type)
+        MyAttack.__init__(self, attack_type=attack_type, multi_attack=use_multiple_attackers)
         self.federate["method"] = "pFedMe"
         self.optimizer["lr"] = 0.1
         self.federate["local_update_steps"] = 3
@@ -187,10 +190,10 @@ class pFedMeConfig(BaseConfig, Attack):
         self.expname =  attack_type +  '_pfedme'
         self.device = 2
         
-class FedRepConfig(BaseConfig, Attack):
-    def __init__(self, attack_type):
+class FedRepConfig(BaseConfig, MyAttack):
+    def __init__(self, attack_type, use_multiple_attackers):
         BaseConfig.__init__(self)
-        Attack.__init__(self, attack_type=attack_type)
+        MyAttack.__init__(self, attack_type=attack_type, multi_attack=use_multiple_attackers)
         self.federate["method"] = "FedRep"
         self.optimizer["lr"] = 0.1
         self.federate["local_update_steps"] = 2
@@ -215,16 +218,18 @@ cfgs = []
 attack_types = ['naive', 'badnet', 'narci', 'hk', 'signal']
 ditto_config = DittoConfig
 fedavg_config = FedAvgConfig
-fedunlearn_config = FedUnlearnConfig
+# fedunlearn_config = FedUnlearnConfig
 pfedme_config = pFedMeConfig
 fedrep_config = FedRepConfig
 
+is_multiple = False
+
 for attack_type in attack_types:
-    cfgs.append(ditto_config(attack_type=attack_type))
-    cfgs.append(fedavg_config(attack_type=attack_type))
-    cfgs.append(fedunlearn_config(attack_type=attack_type))
-    cfgs.append(pfedme_config(attack_type=attack_type))
-    cfgs.append(fedrep_config(attack_type=attack_type))
+    cfgs.append(ditto_config(attack_type=attack_type, use_multiple_attackers=is_multiple))
+    cfgs.append(fedavg_config(attack_type=attack_type, use_multiple_attackers=is_multiple))
+    # cfgs.append(fedunlearn_config(attack_type=attack_type, use_multiple_attackers=is_multiple))
+    cfgs.append(pfedme_config(attack_type=attack_type, use_multiple_attackers=is_multiple))
+    cfgs.append(fedrep_config(attack_type=attack_type, use_multiple_attackers=is_multiple))
 
 for cfg in cfgs:
     write_config_to_yaml(cfg, os.path.join(base_folder, cfg.expname + '.yaml'))
