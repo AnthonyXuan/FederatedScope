@@ -3,6 +3,7 @@ import os
 # base_folder = './new-scripts'
 # base_folder = './new-scripts-high-attack'
 base_folder = './200-rounds-scripts'
+out_dir = './200-rounds-output'
 
 class BaseConfig:
     def __init__(self):
@@ -64,7 +65,7 @@ class BaseConfig:
             # ! 'metrics' is new in backdoor branch
             "metrics": ['acc', 'correct']
         }
-        self.outdir = 'trytry/'
+        self.outdir = out_dir
         self.verbose = 1
 
 class Attack():
