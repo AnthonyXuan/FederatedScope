@@ -1,5 +1,8 @@
 # FOLDER_PATH="new-scripts-high-attack"
-FOLDER_PATH="200-rounds-scripts"
+# FOLDER_PATH="200-rounds-scripts" 
+# FOLDER_PATH="200-multiattack-scripts-2-20"
+# FOLDER_PATH="200-multiattack-scripts-2-20-resnet"
+FOLDER_PATH="200-single-scripts-resnet"
 
 # naive
 nohup python federatedscope/main.py --cfg "$FOLDER_PATH/naive_ditto.yaml" &

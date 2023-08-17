@@ -2,15 +2,9 @@ import yaml
 import os
 # base_folder = './new-scripts'
 # base_folder = './new-scripts-high-attack'
-# base_folder = './200-multiattack-scripts-2-20'
-# out_dir = './200-multiattack-output-2-20'
-# base_folder = './200-multiattack-scripts-2-20-resnet'
-# out_dir = './200-multiattack-output-2-20-resnet'
-
-base_folder = './200-single-scripts-resnet'
-out_dir = './200-single-output-resnet'
-
-is_multiple = False
+base_folder = './200-multiattack-scripts-2-20-femnist'
+out_dir = './200-multiattack-output-2-20-femnist'
+is_multiple = True
 
 class BaseConfig:
     def __init__(self):
@@ -29,28 +23,27 @@ class BaseConfig:
         # fixed dataset, and lda splitter alpha to be 0.5
         self.data = {
             "root": "data/",
-            "type": "CIFAR10@torchvision",
-            "splits": [1.0, 0.0, 0.0],
+            "type": "femnist",
+            "splits": [0.6, 0.2, 0.2],
             "num_workers": 0,
             "transform": [['ToTensor']],
             "args": [{"download": True}],
-            "splitter": "lda",
-            "splitter_args": [{"alpha": 0.5}],
             "batch_size": 64,
             # ! 'dataset' is new in backdoor branch 
-            "dataset": ['train', 'val', 'test', 'poison']
+            "dataset": ['train', 'val', 'test', 'poison'],
+            'subsample': 0.05
         }
         self.model = {
-            "type": "resnet18",
-            "hidden": 512,
-            "out_channels": 10,
+            "type": "convnet2",
+            "hidden": 1024,
+            "out_channels": 62,
             "dropout": 0.0
         }
         self.optimizer = {
             "weight_decay": 0.0
         }
         self.grad = {
-            "grad_clip": 5.0
+            "grad_clip": -1.0
         }
         self.criterion = {
             "type": "CrossEntropyLoss"
@@ -59,10 +52,10 @@ class BaseConfig:
             "type": "cvtrainer"
         }
         self.eval = {
-            "freq": 100,
+            "freq": 10,
             "metrics": ["acc", "correct"],
             "best_res_update_round_wise_key": "test_loss",
-            "split": ['test','poison'],
+            "split": ['test', 'val', 'poison'],
             # ! 'metrics' is new in backdoor branch
             "metrics": ['acc', 'correct']
         }
@@ -76,8 +69,8 @@ class Attack():
         if attack_type == 'naive':
             self.attack = {
                 "attacker_id": -1,
-                "mean": [0.4914, 0.4822, 0.4465],
-                "std": [0.2470, 0.2435, 0.2616]
+                "mean": [0.1307],
+                "std": [0.3081]
             }
             return
         elif attack_type == 'badnet':
@@ -88,8 +81,8 @@ class Attack():
                 "label_type": "dirty",
                 "attacker_id": 1,
                 "target_label_ind": 7,
-                "mean": [0.4914, 0.4822, 0.4465],
-                "std": [0.2470, 0.2435, 0.2616]
+                "mean": [0.1307],
+                "std": [0.3081]
             }
         elif attack_type == 'narci':
             self.attack = {
@@ -99,8 +92,8 @@ class Attack():
                 "label_type": "clean",
                 "attacker_id": 1,
                 "target_label_ind": 2,
-                "mean": [0.4914, 0.4822, 0.4465],
-                "std": [0.2470, 0.2435, 0.2616]
+                "mean": [0.1307],
+                "std": [0.3081]
             }
         elif attack_type == 'hk':
             self.attack = {
@@ -110,8 +103,8 @@ class Attack():
                 "label_type": "dirty",
                 "attacker_id": 1,
                 "target_label_ind": 7,
-                "mean": [0.4914, 0.4822, 0.4465],
-                "std": [0.2470, 0.2435, 0.2616]
+                "mean": [0.1307],
+                "std": [0.3081]
             }
         elif attack_type == 'signal':
             self.attack = {
@@ -121,8 +114,8 @@ class Attack():
                 "label_type": "dirty",
                 "attacker_id": 1,
                 "target_label_ind": 7,
-                "mean": [0.4914, 0.4822, 0.4465],
-                "std": [0.2470, 0.2435, 0.2616]
+                "mean": [0.1307],
+                "std": [0.3081]
             }
             
         self.attack['use_multi_attackers'] = use_multi_attackers
@@ -131,14 +124,13 @@ class Attack():
         self.attack['setting'] = attack_settings
         self.attack['poison_ratio'] = poison_rate
         
-        
 class MyAttack(Attack):
     def __init__(self, attack_type="naive", multi_attack=False):
         if multi_attack:
-            super().__init__(attack_type, use_multi_attackers=True, attackers_list=list(range(1,21)), attack_settings='random', poison_rate=0.02)
+            super().__init__(attack_type, use_multi_attackers=True, attackers_list=list(range(1,21)), attack_settings='random', poison_rate=0.5)
         else:
-            super().__init__(attack_type, use_multi_attackers=False)
-
+            super().__init__(attack_type, use_multi_attackers=False, poison_rate=0.8)
+            
 class FedAvgConfig(BaseConfig, MyAttack):
     def __init__(self, attack_type, use_multiple_attackers):
         BaseConfig.__init__(self)
@@ -171,7 +163,7 @@ class DittoConfig(BaseConfig, MyAttack):
         MyAttack.__init__(self, attack_type=attack_type, multi_attack=use_multiple_attackers)
         self.federate["method"] = "Ditto"
         self.optimizer["lr"] = 0.1
-        self.federate["local_update_steps"] = 2
+        self.federate["local_update_steps"] = 3
         self.expname =  attack_type +  '_ditto'
         self.device = 1
         
@@ -181,10 +173,10 @@ class pFedMeConfig(BaseConfig, MyAttack):
         MyAttack.__init__(self, attack_type=attack_type, multi_attack=use_multiple_attackers)
         self.federate["method"] = "pFedMe"
         self.optimizer["lr"] = 0.1
-        self.federate["local_update_steps"] = 3
+        self.federate["local_update_steps"] = 2
         self.personalization = {
-            'regular_weight' : 0.5,
-            'K': 2,
+            'regular_weight' : 0.8,
+            'K': 3,
             'beta': 1.0
         }
         self.expname =  attack_type +  '_pfedme'
@@ -199,11 +191,10 @@ class FedRepConfig(BaseConfig, MyAttack):
         self.federate["local_update_steps"] = 2
         self.personalization = {
             'lr_feature' : 0.1,
-            'lr_linear': 0.005,
-            'epoch_feature': 1,
+            'lr_linear': 0.1,
+            'epoch_feature': 2,
             'epoch_linear': 1,
-            # ! modified for resnet-18
-            'local_param': ["linear"],
+            'local_param': ["fc2"],
             'share_non_trainable_para': False
         }
         self.expname =  attack_type +  '_fedrep'
@@ -216,8 +207,8 @@ def write_config_to_yaml(config, filename):
 
 cfgs = []
 
-attack_types = ['naive', 'badnet', 'narci', 'hk', 'signal']
-# attack_types = ['naive', 'badnet', 'hk', 'signal']
+# attack_types = ['naive', 'badnet', 'narci', 'hk', 'signal']
+attack_types = ['naive', 'badnet', 'hk', 'signal']
 ditto_config = DittoConfig
 fedavg_config = FedAvgConfig
 # fedunlearn_config = FedUnlearnConfig

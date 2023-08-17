@@ -5,6 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "run femnist",
+            "type": "python",
+            "request": "launch",
+            "program": "./federatedscope/main.py",
+            "args": ["--cfg", "./200-multiattack-scripts-2-20-femnist/badnet_fedavg.yaml"], 
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "run naive-fedunlearn",
             "type": "python",
             "request": "launch",
